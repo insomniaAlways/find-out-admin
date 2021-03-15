@@ -1,5 +1,5 @@
 import logo from "./logo.svg";
-import "./App.css";
+import "./App.less";
 import store from "./store";
 import { Provider } from "react-redux";
 

@@ -5,10 +5,12 @@ import { findAllCategory } from "../../store/actions/category.action";
 
 const columns = [
   {
+    Header: "Id",
+    accessor: "id"
+  },
+  {
     Header: "Name",
-    accessor: "name",
-    headerClassName: "text-color-white text-size-sixteen padding-xl-left",
-    cellClassNames: "padding-lg-left cursor-pointer text-wrap text-weight-medium"
+    accessor: "name"
   }
 ];
 function Category(props) {
@@ -20,6 +22,7 @@ function Category(props) {
         data={categories}
         fetchData={fetchCategory}
         isLoading={request.isLoading}
+        tableClassName={"ui simple table"}
       />
     </div>
   );

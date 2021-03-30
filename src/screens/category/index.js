@@ -5,14 +5,21 @@ import { findAllCategory } from "../../store/actions/category.action";
 
 const columns = [
   {
+    Header: "Id",
+    accessor: "id"
+    // headerClassName: "text-color-white text-size-sixteen padding-xl-left",
+    // cellClassNames: "padding-lg-left cursor-pointer text-wrap text-weight-medium"
+  },
+  {
     Header: "Name",
-    accessor: "name",
-    headerClassName: "text-color-white text-size-sixteen padding-xl-left",
-    cellClassNames: "padding-lg-left cursor-pointer text-wrap text-weight-medium"
+    accessor: "name"
+    //headerClassName: "text-color-white text-size-sixteen padding-xl-left",
+    //cellClassNames: "padding-lg-left cursor-pointer text-wrap text-weight-medium"
   }
 ];
 function Category(props) {
   const { categories, fetchCategory, request } = props;
+  console.log(categories);
   return (
     <div className="ui container">
       <TableCommon
@@ -20,6 +27,7 @@ function Category(props) {
         data={categories}
         fetchData={fetchCategory}
         isLoading={request.isLoading}
+        tableClassName="ui celled table"
       />
     </div>
   );

@@ -17,7 +17,6 @@ function configureStore(initialState) {
     composeEnhancers(applyMiddleware(...middlewares))
   );
   sagaMiddleware.run(rootSaga);
-
   return store;
 }
 export default configureStore();

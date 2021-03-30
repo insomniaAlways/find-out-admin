@@ -15,6 +15,7 @@ const columns = [
 ];
 function Category(props) {
   const { categories, fetchCategory, request } = props;
+  console.log(categories);
   return (
     <div className="ui container">
       <TableCommon

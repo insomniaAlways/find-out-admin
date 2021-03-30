@@ -1,10 +1,25 @@
-import { schema } from 'normalizr';
+import { schema } from "normalizr";
 // import mergeData from "../../utils/merge-data";
 
-const categorySchema = new schema.Entity('category');
+const categorySchema = new schema.Entity("category");
 const categoryArraySchema = new schema.Array(categorySchema);
 
-const itemSchema = new schema.Entity('item');
+const itemSchema = new schema.Entity("item");
 const itemArraySchema = new schema.Array(itemSchema);
 
-export { categorySchema, categoryArraySchema, itemSchema, itemArraySchema };
+const productSchema = new schema.Entity("product");
+const productArraySchema = new schema.Array(productSchema);
+
+const productBrandSchema = new schema.Entity("productbrand");
+const productBrandArraySchema = new schema.Array(productBrandSchema);
+
+export {
+  categorySchema,
+  categoryArraySchema,
+  itemSchema,
+  itemArraySchema,
+  productSchema,
+  productArraySchema,
+  productBrandSchema,
+  productBrandArraySchema
+};

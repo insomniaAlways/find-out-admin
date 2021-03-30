@@ -7,14 +7,10 @@ const columns = [
   {
     Header: "Id",
     accessor: "id"
-    // headerClassName: "text-color-white text-size-sixteen padding-xl-left",
-    // cellClassNames: "padding-lg-left cursor-pointer text-wrap text-weight-medium"
   },
   {
     Header: "Name",
     accessor: "name"
-    //headerClassName: "text-color-white text-size-sixteen padding-xl-left",
-    //cellClassNames: "padding-lg-left cursor-pointer text-wrap text-weight-medium"
   }
 ];
 function Category(props) {
@@ -27,7 +23,7 @@ function Category(props) {
         data={categories}
         fetchData={fetchCategory}
         isLoading={request.isLoading}
-        tableClassName="ui celled table"
+        tableClassName={"ui simple table"}
       />
     </div>
   );

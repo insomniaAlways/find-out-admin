@@ -2,7 +2,7 @@ import Dashboard from "../screens/dashboard";
 import LoginScreen from "../screens/authentication/login";
 import { connect } from "react-redux";
 import React, { Suspense } from "react";
-// import Navbar from "../containers/navbar";
+import Navbar from "../components/Navbar/navbar";
 import { Switch, Route, Redirect } from "react-router-dom";
 import lazyWithPreload from "./lazy-with-preload";
 import ErrorBoundary from "./error-boundary";
@@ -83,6 +83,7 @@ const PrivateRoute = ({ component: Component, isAuthenticated, currentUserRole, 
           />
         ) : (
           <>
+            <Navbar />
             <Component {...props} />
           </>
         )

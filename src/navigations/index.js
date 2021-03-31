@@ -14,6 +14,9 @@ import ItemEdit from "../screens/item/edit";
 import ItemCreate from "../screens/item/create";
 import CategoryCreate from "../screens/category/create";
 import CategoryEdit from "../screens/category/edit";
+import Register from "../screens/registration";
+import ChangePassword from "../screens/authentication/change-password";
+import RegisterStore from "../screens/registration/register-store";
 
 export const preload = (route) => {
   const loadableComponent = route.component;
@@ -27,6 +30,11 @@ export const publicRoutes = [
     key: "login",
     path: "/login",
     component: LoginScreen
+  },
+  {
+    key: "registration",
+    path: "/register",
+    component: Register
   }
 ];
 
@@ -66,6 +74,14 @@ export const privateRoutes = [
   {
     path: "/item/:item_id/edit",
     component: ItemEdit
+  },
+  {
+    path: "/change-password",
+    component: ChangePassword
+  },
+  {
+    path: "/register-store",
+    component: RegisterStore
   }
 ];
 

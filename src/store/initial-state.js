@@ -2,10 +2,34 @@ export const categoryInitialState = {
   request: {
     isLoading: false,
     meta: {},
-    error: null,
+    error: null
   },
   data: {
     byIds: {},
-    filters: {},
+    filters: {}
+  }
+};
+
+export const productInitialState = {
+  request: {
+    isLoading: false,
+    meta: {},
+    error: null
   },
+  data: {
+    byIds: {},
+    filters: {}
+  }
+};
+
+export const productBrandInitialState = {
+  request: {
+    isLoading: false,
+    meta: {},
+    error: null
+  },
+  data: {
+    byIds: {},
+    filters: {}
+  }
 };

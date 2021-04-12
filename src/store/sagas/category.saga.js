@@ -1,21 +1,16 @@
-import {
-  all,
-  takeLatest,
-  takeEvery,
-  fork,
-  call,
-  put,
-} from 'redux-saga/effects';
-import { categoryActionTypes as types } from '../action-types';
-import { findAllCategorySucceed } from '../actions/category.action';
-import { catchReduxError, normalizeData } from '../actions/general.action';
-import { categoryArraySchema } from '../schemas';
-import { findAll } from '../server';
+import { all, takeLatest, takeEvery, fork, call, put } from "redux-saga/effects";
+import { categoryActionTypes as types } from "../action-types";
+import { findAllCategorySucceed } from "../actions/category.action";
+import { catchReduxError, normalizeData } from "../actions/general.action";
+import { categoryArraySchema } from "../schemas";
+import { findAll } from "../server";
 
 async function getAllData() {
+  debugger;
   try {
-    const response = await findAll('category');
+    const response = await findAll("category");
     if (response.data) {
+      debugger;
       return response.data;
     }
     return response;
@@ -25,12 +20,14 @@ async function getAllData() {
 }
 
 function* findAllSaga({ actions = {} }) {
+  // debugger;
   try {
     yield put({ type: types.CATEGORY_REQUEST_INITIATED });
     const payload = yield call(getAllData);
+    // debugger;
     const normalizedData = yield call(normalizeData, {
       data: payload,
-      schema: categoryArraySchema,
+      schema: categoryArraySchema
     });
     yield put(findAllCategorySucceed({ payload: normalizedData, meta: {} }));
   } catch (error) {
@@ -48,6 +45,7 @@ function* querySaga({ query, actions = {} }) {
 
 // -------------------- watchers --------------------
 function* watcherFindAll() {
+  // debugger;
   yield takeLatest(types.CATEGORY_FIND_ALL_REQUEST, findAllSaga);
 }
 

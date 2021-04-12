@@ -1,31 +1,45 @@
+import { sessionActionTypes } from "../action-types";
 const initialState = {
   isLoading: false,
-  isAuthenticated: true,
-  tokenResponse: null,
-  details: null,
-  authorization: null,
-  user: null
+  isAuthenticated: false,
+  expiresIn: null,
+  refreshToken: null,
+  token: null
 };
 
 const session = (state = initialState, action) => {
   switch (action.type) {
     case "AUTHENTICATION_SUCCESS":
+      debugger;
       return {
         ...state,
         isLoading: false,
         isAuthenticated: true,
-        details: action.session,
-        authorization: action.authorization,
-        user: action.user
+        expiresIn: action.payload.expiresIn,
+        refreshToken: action.payload.refresh_token,
+        token: action.payload.token
       };
     case "UNAUTHENTICATE_SUCCESS": {
       return {
         ...state,
         isLoading: false,
         isAuthenticated: false,
-        details: null,
-        authorization: null,
-        user: null
+        expiresIn: null,
+        refreshToken: null,
+        token: null
+      };
+    }
+    case sessionActionTypes.UNAUTHENTICATE_REQUEST_INITIATED: {
+      return {
+        ...state,
+        isLoading: true
+      };
+    }
+
+    case sessionActionTypes.AUTHENTICATION_REQUEST_INITIATED: {
+      return {
+        ...state,
+        isLoading: true
       };
     }
     default:

@@ -1,15 +1,15 @@
-import { includes } from 'lodash';
-import produce from 'immer';
+import { includes } from "lodash";
+import produce from "immer";
 
 function isValid(action, modelName) {
   const { payload } = action;
   return (
     action &&
     action.type &&
-    typeof action.type == 'string' &&
+    typeof action.type == "string" &&
     modelName &&
-    typeof modelName == 'string' &&
-    action.type.split('_')[0] === modelName.toUpperCase() &&
+    typeof modelName == "string" &&
+    action.type.split("_")[0] === modelName.toUpperCase() &&
     payload &&
     payload.result &&
     payload.entities &&
@@ -27,10 +27,7 @@ export const getAllIds = (modelName) => {
       return [];
     }
     if (isValid(action, modelName)) {
-      if (
-        Array.isArray(action.payload.result) &&
-        action.payload.result.length
-      ) {
+      if (Array.isArray(action.payload.result) && action.payload.result.length) {
         action.payload.result.forEach((result) => {
           if (!includes(draftState, result)) {
             draftState.push({ id: result });
@@ -46,6 +43,7 @@ export const getAllIds = (modelName) => {
 };
 
 export const getById = (modelName) => {
+  // debugger;
   return produce((draftState, action) => {
     if (
       action.type &&
@@ -55,15 +53,12 @@ export const getById = (modelName) => {
       return {};
     }
     if (isValid(action, modelName)) {
-      if (
-        Array.isArray(action.payload.result) &&
-        action.payload.result.length
-      ) {
+      if (Array.isArray(action.payload.result) && action.payload.result.length) {
         action.payload.result.forEach((id) => {
           if (draftState[id] && Object.keys(draftState[id]).length) {
             draftState[id] = {
               ...draftState[id],
-              ...action.payload.entities[modelName][id],
+              ...action.payload.entities[modelName][id]
             };
           } else {
             draftState[id] = action.payload.entities[modelName][id];
@@ -74,7 +69,7 @@ export const getById = (modelName) => {
         if (draftState[id] && Object.keys(draftState[id]).length) {
           draftState[id] = {
             ...draftState[id],
-            ...action.payload.entities[modelName][id],
+            ...action.payload.entities[modelName][id]
           };
         } else {
           draftState[id] = action.payload.entities[modelName][id];

@@ -17,7 +17,6 @@ export const queryCategory = ({ query, actions = {} }) => {
 };
 
 export const findAllCategory = ({ actions = {} }) => {
-  // debugger;
   return {
     type: types.CATEGORY_FIND_ALL_REQUEST,
     actions
@@ -62,7 +61,7 @@ export const queryCategorySucceed = ({ payload, meta = {} }) => {
 };
 
 export const findAllCategorySucceed = ({ payload, meta = {} }) => {
-  // debugger;
+  debugger;
   return {
     type: types.CATEGORY_FIND_ALL_REQUEST_SUCCEED,
     payload,

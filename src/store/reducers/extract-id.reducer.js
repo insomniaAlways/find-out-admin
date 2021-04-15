@@ -43,7 +43,6 @@ export const getAllIds = (modelName) => {
 };
 
 export const getById = (modelName) => {
-  // debugger;
   return produce((draftState, action) => {
     if (
       action.type &&

@@ -6,7 +6,6 @@ import { getById } from "./extract-id.reducer";
 const request = (state = initialState.request, action) => {
   switch (action.type) {
     case types.CATEGORY_REQUEST_INITIATED: {
-      // debugger;
       return {
         ...state,
         isLoading: true,

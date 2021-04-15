@@ -11,7 +11,6 @@ const Navbar = (props) => {
   const { triggerLogout } = props;
 
   const handleLogout = () => {
-    // debugger;
     triggerLogout();
   };
 
@@ -43,7 +42,6 @@ const Navbar = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     triggerLogout: () => {
-      // debugger;
       dispatch(unAuthenticateInitiate());
     }
   };

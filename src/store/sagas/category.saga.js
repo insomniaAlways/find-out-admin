@@ -20,11 +20,11 @@ async function getAllData() {
 }
 
 function* findAllSaga({ actions = {} }) {
-  // debugger;
+  debugger;
   try {
     yield put({ type: types.CATEGORY_REQUEST_INITIATED });
     const payload = yield call(getAllData);
-    // debugger;
+    debugger;
     const normalizedData = yield call(normalizeData, {
       data: payload,
       schema: categoryArraySchema

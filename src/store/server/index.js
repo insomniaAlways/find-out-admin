@@ -65,9 +65,7 @@ export async function createRecord(type, payload = {}, config = {}) {
   if (!type) {
     throw new Error("'type' not provided");
   }
-  // if (!payload) {
-  //   throw new Error("'type' not provided");
-  // }
+
   let url = `/${type}`;
   return await axiosInstance.post(url, payload, config);
 }

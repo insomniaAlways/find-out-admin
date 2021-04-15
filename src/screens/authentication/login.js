@@ -20,7 +20,6 @@ const Login = (props) => {
   console.log(state);
 
   const handleLogin = () => {
-    // debugger;
     const { email, password } = state;
     if (email != "" && password != "") {
       triggerLogin(state);
@@ -34,9 +33,7 @@ const Login = (props) => {
   };
 
   useEffect(() => {
-    // debugger;
     if (session.isAuthenticated) {
-      // debugger;
       history.push("/dashboard");
     }
   }, [session.isAuthenticated]);
@@ -139,17 +136,14 @@ const Login = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  // debugger;
   return {
     session: state.session
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  // debugger;
   return {
     triggerLogin: (props) => {
-      // debugger;
       dispatch(authenticateInitiate(props));
     }
   };

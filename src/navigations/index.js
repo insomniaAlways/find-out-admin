@@ -11,6 +11,7 @@ import Category from "../screens/category";
 import Order from "../screens/order";
 import Item from "../screens/item";
 import Product from "../screens/product";
+import ProductEdit from "../screens/product/edit";
 import ItemEdit from "../screens/item/edit";
 import ItemCreate from "../screens/item/create";
 import CategoryCreate from "../screens/category/create";
@@ -87,6 +88,10 @@ export const privateRoutes = [
   {
     path: "/product",
     component: Product
+  },
+  {
+    path: "/product-details/:product_id/edit",
+    component: ProductEdit
   }
 ];
 

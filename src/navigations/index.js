@@ -10,6 +10,7 @@ import LoadingContainer from "./loading-container";
 import Category from "../screens/category";
 import Order from "../screens/order";
 import Item from "../screens/item";
+import Product from "../screens/product";
 import ItemEdit from "../screens/item/edit";
 import ItemCreate from "../screens/item/create";
 import CategoryCreate from "../screens/category/create";
@@ -82,6 +83,10 @@ export const privateRoutes = [
   {
     path: "/register-store",
     component: RegisterStore
+  },
+  {
+    path: "/product",
+    component: Product
   }
 ];
 

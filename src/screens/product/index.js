@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import TableCommon from "../../components/table-helpers/table-common";
-import { findAllItem } from "../../store/actions/item.action";
+import { findAllProduct } from "../../store/actions/product.action";
 
 const columns = [
   {
@@ -13,16 +13,16 @@ const columns = [
     accessor: "name"
   }
 ];
-function Item(props) {
-  const { items, fetchItem, request } = props;
-  console.log(items);
+function Product(props) {
+  const { products, fetchProduct, request } = props;
+  // console.log(categories);
 
   return (
     <div className="ui container">
       <TableCommon
         columns={columns}
-        data={items}
-        fetchData={fetchItem}
+        data={products}
+        fetchData={fetchProduct}
         isLoading={request.isLoading}
         tableClassName={"ui simple table"}
       />
@@ -32,15 +32,15 @@ function Item(props) {
 
 const mapStateToProps = () => {
   return (state) => ({
-    items: Object.values(state.item.data.byId),
-    request: state.item.request
+    products: Object.values(state.product.data.byId),
+    request: state.product.request
   });
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchItem: (query) => {
-    dispatch(findAllItem({ actions: {} }));
+  fetchProduct: (query) => {
+    dispatch(findAllProduct({ actions: {} }));
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Item);
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

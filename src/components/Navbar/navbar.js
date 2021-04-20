@@ -23,8 +23,8 @@ const Navbar = (props) => {
         <Link to="/category" className="item" name="category">
           Category
         </Link>
-        <Link to="/item" className="item" name="item">
-          Item
+        <Link to="/product" className="item" name="item">
+          Product
         </Link>
         <Link to="/order" className="item" name="order">
           Order

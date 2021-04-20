@@ -23,6 +23,7 @@ function* findAllSaga({ actions = {} }) {
   debugger;
   try {
     yield put({ type: types.CATEGORY_REQUEST_INITIATED });
+    debugger;
     const payload = yield call(getAllData);
     debugger;
     const normalizedData = yield call(normalizeData, {

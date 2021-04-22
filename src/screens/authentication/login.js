@@ -1,10 +1,9 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { authenticateInitiate } from "../../store/actions/session.action";
-import { Link } from "react-router-dom";
+
 const Login = (props) => {
   const { triggerLogin, history, session } = props;
-  console.log(session, session.isAuthenticated);
   const [state, setState] = useState({ email: "", password: "" });
 
   const updateState = (event) => {
@@ -17,7 +16,6 @@ const Login = (props) => {
       };
     });
   };
-  console.log(state);
 
   const handleLogin = () => {
     const { email, password } = state;

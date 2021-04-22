@@ -72,7 +72,6 @@ function TableCommon(props) {
   };
 
   const rowClickHandler = (e, row) => {
-    debugger;
     if (e && e.target && e.target.parentElement.className.includes("ignoreRowClick")) {
       return false;
     }

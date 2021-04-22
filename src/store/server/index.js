@@ -37,13 +37,11 @@ async function getRecord(url, config) {
 
 //GET Calls
 export function findAll(type) {
-  debugger;
   let url = `/${type}`;
   return getRecord(url);
 }
 
 export function findRecord(type, id, config = {}) {
-  debugger;
   let url = `/${type}`;
   if (!id) {
     throw new Error("'id' not provided");

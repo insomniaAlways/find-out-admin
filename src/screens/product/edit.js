@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 
 const ProductEdit = () => {
   const params = useParams();
-  debugger;
   return (
     <>
       <div>{params.product_id}</div>

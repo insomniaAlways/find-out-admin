@@ -52,7 +52,6 @@ export const actionInitiated = (type) => {
 };
 
 export const normalizeData = ({ data, schema }) => {
-  debugger;
   if (data && data.data) {
     let payload = normalize(data.data, schema);
     return payload;

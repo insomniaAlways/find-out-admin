@@ -18,11 +18,8 @@ function OnRowClick() {}
 
 function Product(props) {
   const { products, fetchProduct, request } = props;
-  // console.log(categories);
-  debugger;
   let history = useHistory();
   const rowClickHandler = (row) => {
-    debugger;
     const { values } = row;
     //const [original] = row;
     history.push("/product-details/" + values.id + "/edit");
@@ -42,7 +39,6 @@ function Product(props) {
 }
 
 const mapStateToProps = () => {
-  debugger;
   return (state) => ({
     products: Object.values(state.product.data.byId),
     request: state.product.request

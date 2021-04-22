@@ -120,10 +120,6 @@ const PrivateRoute = ({ component: Component, isAuthenticated, currentUserRole, 
 
 const Navigation = (props) => {
   let isAuthenticated = props.isAuthenticated;
-  debugger;
-  const sessionData = localStorage.getItem("find-out-session");
-  const normalisedData = JSON.parse(sessionData);
-  console.log("LocalData=", normalisedData);
   const allOtherRoutes = privateRoutes.map((route, index) => {
     return (
       <PrivateRoute
@@ -153,7 +149,6 @@ const Navigation = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     isAuthenticated: state.session.isAuthenticated,
     currentUserRole: state.session.authorization && state.session.authorization.role

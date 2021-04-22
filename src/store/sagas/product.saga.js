@@ -1,14 +1,19 @@
 import { all, takeLatest, takeEvery, fork, call, put } from "redux-saga/effects";
 import { productActionTypes as types } from "../action-types";
-import { findAllProductSucceed, queryProductSucceed } from "../actions/product.action";
+import {
+  findAllProductSucceed,
+  queryProductSucceed,
+  findByIdProductSucceed
+} from "../actions/product.action";
 import { catchReduxError, normalizeData } from "../actions/general.action";
 import { productArraySchema } from "../schemas";
-import { findAll, query } from "../server";
+import { findAll, query, findRecord } from "../server";
 
 async function getAllData() {
   try {
     const response = await findAll("product");
     if (response.data) {
+      debugger;
       return response.data;
     }
     return response;
@@ -16,7 +21,19 @@ async function getAllData() {
     throw error;
   }
 }
-
+async function idData(id) {
+  try {
+    debugger;
+    const response = await findRecord("product", id);
+    if (response.data) {
+      debugger;
+      return response.data;
+    }
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
 async function queryData(q) {
   try {
     const response = await query("product", q);
@@ -43,7 +60,18 @@ function* findAllSaga({ actions = {} }) {
 }
 
 function* findByIdSaga({ product_id, actions = {} }) {
-  yield put({ type: types.PRODUCT_REQUEST_INITIATED });
+  try {
+    debugger;
+    yield put({ type: types.PRODUCT_REQUEST_INITIATED });
+    const payload = yield call(idData, product_id);
+    const normalizedData = yield call(normalizeData, {
+      data: payload,
+      schema: productArraySchema
+    });
+    yield put(findByIdProductSucceed({ payload: normalizedData, meta: {} }));
+  } catch (error) {
+    yield call(catchReduxError, error);
+  }
 }
 
 function* querySaga({ query, actions = {} }) {

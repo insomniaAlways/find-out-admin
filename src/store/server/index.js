@@ -43,6 +43,7 @@ export function findAll(type) {
 }
 
 export function findRecord(type, id, config = {}) {
+  debugger;
   let url = `/${type}`;
   if (!id) {
     throw new Error("'id' not provided");

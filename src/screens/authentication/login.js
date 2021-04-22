@@ -19,7 +19,7 @@ const Login = (props) => {
 
   const handleLogin = () => {
     const { email, password } = state;
-    if (email != "" && password != "") {
+    if (email !== "" && password !== "") {
       triggerLogin(state);
     } else {
       alert("Please enter both email and password");
@@ -34,7 +34,7 @@ const Login = (props) => {
     if (session.isAuthenticated) {
       history.push("/dashboard");
     }
-  }, [session.isAuthenticated]);
+  }, [session.isAuthenticated, history]);
 
   return (
     <>
@@ -44,7 +44,7 @@ const Login = (props) => {
         <div className="ui raised segment" style={{ margin: "5vh" }}>
           <div className="ui two column grid">
             <div className="nine wide column">
-              <img src="public/assets/icons/home.png"></img>
+              <img src="public/assets/icons/home.png" alt=""></img>
             </div>
             <div className="seven wide column ">
               <div className="ui equal width grid margin-no">

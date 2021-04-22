@@ -18,7 +18,6 @@ function configureStore(initialState) {
     initialState = {
       session: {
         isAuthenticated: true,
-        details: sessionDetails.session,
         expiresIn: sessionDetails.expiresIn,
         refreshToken: sessionDetails.refreshToken,
         token: sessionDetails.token

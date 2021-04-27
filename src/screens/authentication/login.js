@@ -1,11 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { authenticateInitiate } from "../../store/actions/session.action";
-import { Link } from "react-router-dom";
+
 const Login = (props) => {
   debugger;
   const { triggerLogin, history, session } = props;
-  console.log(session, session.isAuthenticated);
   const [state, setState] = useState({ email: "", password: "" });
 
   const updateState = (event) => {
@@ -18,11 +17,10 @@ const Login = (props) => {
       };
     });
   };
-  console.log(state);
 
   const handleLogin = () => {
     const { email, password } = state;
-    if (email != "" && password != "") {
+    if (email !== "" && password !== "") {
       triggerLogin(state);
     } else {
       alert("Please enter both email and password");
@@ -37,7 +35,7 @@ const Login = (props) => {
     if (session.isAuthenticated) {
       history.push("/dashboard");
     }
-  }, [session.isAuthenticated]);
+  }, [session.isAuthenticated, history]);
 
   return (
     <>
@@ -47,7 +45,7 @@ const Login = (props) => {
         <div className="ui raised segment" style={{ margin: "5vh" }}>
           <div className="ui two column grid">
             <div className="nine wide column">
-              <img src="public/assets/icons/home.png"></img>
+              <img src="public/assets/icons/home.png" alt=""></img>
             </div>
             <div className="seven wide column ">
               <div className="ui equal width grid margin-no">

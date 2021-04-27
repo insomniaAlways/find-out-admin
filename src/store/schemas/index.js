@@ -13,6 +13,9 @@ const productArraySchema = new schema.Array(productSchema);
 const productBrandSchema = new schema.Entity("productbrand");
 const productBrandArraySchema = new schema.Array(productBrandSchema);
 
+const sellerProductSchema = new schema.Entity("seller-product");
+const sellerProductArraySchema = new schema.Array(sellerProductSchema);
+
 export {
   categorySchema,
   categoryArraySchema,
@@ -21,5 +24,7 @@ export {
   productSchema,
   productArraySchema,
   productBrandSchema,
-  productBrandArraySchema
+  productBrandArraySchema,
+  sellerProductSchema,
+  sellerProductArraySchema
 };

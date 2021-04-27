@@ -6,11 +6,9 @@ import { categoryArraySchema } from "../schemas";
 import { findAll } from "../server";
 
 async function getAllData() {
-  debugger;
   try {
     const response = await findAll("category");
     if (response.data) {
-      debugger;
       return response.data;
     }
     return response;
@@ -20,12 +18,9 @@ async function getAllData() {
 }
 
 function* findAllSaga({ actions = {} }) {
-  debugger;
   try {
     yield put({ type: types.CATEGORY_REQUEST_INITIATED });
-    debugger;
     const payload = yield call(getAllData);
-    debugger;
     const normalizedData = yield call(normalizeData, {
       data: payload,
       schema: categoryArraySchema
@@ -46,7 +41,6 @@ function* querySaga({ query, actions = {} }) {
 
 // -------------------- watchers --------------------
 function* watcherFindAll() {
-  // debugger;
   yield takeLatest(types.CATEGORY_FIND_ALL_REQUEST, findAllSaga);
 }
 

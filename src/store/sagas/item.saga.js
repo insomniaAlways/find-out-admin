@@ -7,16 +7,12 @@ import { findAll, query } from "../server";
 
 async function getAllData() {
   try {
-    debugger;
     const response = await findAll("product");
     if (response.data) {
-      debugger;
       return response.data;
     }
     return response;
   } catch (error) {
-    debugger;
-
     throw error;
   }
 }
@@ -34,19 +30,15 @@ async function queryData(q) {
 
 function* findAllSaga({ actions = {} }) {
   try {
-    debugger;
     yield put({ type: types.ITEM_REQUEST_INITIATED });
     const payload = yield call(getAllData);
-    debugger;
-    if (payload.data != []) {
-      debugger;
+    if (payload.data !== []) {
       const normalizedData = yield call(normalizeData, {
         data: payload,
         schema: itemArraySchema
       });
       yield put(findAllItemSucceed({ payload: normalizedData, meta: {} }));
     } else {
-      debugger;
     }
   } catch (error) {
     yield call(catchReduxError, error);
@@ -73,7 +65,6 @@ function* querySaga({ query, actions = {} }) {
 
 // function* workerUnAuthenticate() {
 //   try {
-//     debugger;
 
 //     localStorage.removeItem("find-out-session");
 //     yield put({ type: types.UNAUTHENTICATE_SUCCESS });
@@ -84,7 +75,6 @@ function* querySaga({ query, actions = {} }) {
 
 // -------------------- watchers --------------------
 function* watcherFindAll() {
-  debugger;
   yield takeLatest(types.ITEM_FIND_ALL_REQUEST, findAllSaga);
 }
 

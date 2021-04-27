@@ -10,7 +10,6 @@ const initialState = {
 const session = (state = initialState, action) => {
   switch (action.type) {
     case "AUTHENTICATION_SUCCESS":
-      debugger;
       return {
         ...state,
         isLoading: false,

@@ -45,7 +45,6 @@ export const findAllProductFailed = ({ payload }) => {
 };
 
 export const findByIdProductSucceed = ({ payload, meta = {} }) => {
-  debugger;
   return {
     type: types.PRODUCT_FIND_BY_ID_REQUEST_SUCCEED,
     payload,
@@ -62,7 +61,6 @@ export const queryProductSucceed = ({ payload, meta = {} }) => {
 };
 
 export const findAllProductSucceed = ({ payload, meta = {} }) => {
-  debugger;
   return {
     type: types.PRODUCT_FIND_ALL_REQUEST_SUCCEED,
     payload,

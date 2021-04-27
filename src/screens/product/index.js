@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import TableCommon from "../../components/table-helpers/table-common";
-import { findAllProduct } from "../../store/actions/product.action";
 import { useHistory } from "react-router-dom";
+import { findAllSellerProduct } from "../../store/actions/seller-product.action";
 const columns = [
   {
     Header: "Id",
@@ -14,15 +14,10 @@ const columns = [
   }
 ];
 
-function OnRowClick() {}
-
 function Product(props) {
-  const { products, fetchProduct, request } = props;
-  // console.log(categories);
-  debugger;
+  const { products, fetchSellerProduct, request } = props;
   let history = useHistory();
   const rowClickHandler = (row) => {
-    debugger;
     const { values } = row;
     //const [original] = row;
     history.push("/product-details/" + values.id + "/edit");
@@ -33,7 +28,7 @@ function Product(props) {
         rowClickHandler={rowClickHandler}
         columns={columns}
         data={products}
-        fetchData={fetchProduct}
+        fetchData={fetchSellerProduct}
         isLoading={request.isLoading}
         tableClassName={"ui simple table"}
       />
@@ -42,16 +37,15 @@ function Product(props) {
 }
 
 const mapStateToProps = () => {
-  debugger;
   return (state) => ({
-    products: Object.values(state.product.data.byId),
-    request: state.product.request
+    products: Object.values(state.sellerProduct.data.byId),
+    request: state.sellerProduct.request
   });
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchProduct: (query) => {
-    dispatch(findAllProduct({ actions: {} }));
+  fetchSellerProduct: (query) => {
+    dispatch(findAllSellerProduct({ actions: {} }));
   }
 });
 

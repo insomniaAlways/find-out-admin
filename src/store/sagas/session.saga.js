@@ -15,11 +15,16 @@ import { createRecord } from "../server";
 
 function* workerAuthenticate({ email, password }) {
   try {
-    const response = yield call(createRecord, "login", { phone: email, otp: password });
-    debugger;
+    const response = yield call(
+      createRecord,
+      "token",
+      { email, password },
+      {
+        baseURL: "https://findoutv1.herokuapp.com/admin/v1"
+      }
+    );
     if (response.data.token) {
       yield put({ type: types.AUTHENTICATION_SUCCESS, payload: response.data });
-      debugger;
       let tokenData = {
         expiresIn: response.data.expiresIn,
         refreshToken: response.data.refresh_token,
@@ -38,8 +43,6 @@ function* workerAuthenticate({ email, password }) {
 
 function* workerUnAuthenticate() {
   try {
-    debugger;
-
     localStorage.removeItem("find-out-session");
     yield put({ type: types.UNAUTHENTICATE_SUCCESS });
   } catch (error) {

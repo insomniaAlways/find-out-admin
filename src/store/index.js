@@ -10,7 +10,6 @@ let composeEnhancers = compose;
 composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 function configureStore(initialState) {
-  debugger;
   const middlewares = [sagaMiddleware];
   let sessionDetails = localStorage.getItem("find-out-session")
     ? JSON.parse(localStorage.getItem("find-out-session"))
@@ -19,7 +18,6 @@ function configureStore(initialState) {
     initialState = {
       session: {
         isAuthenticated: true,
-        details: sessionDetails.session,
         expiresIn: sessionDetails.expiresIn,
         refreshToken: sessionDetails.refreshToken,
         token: sessionDetails.token

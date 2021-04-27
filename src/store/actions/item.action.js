@@ -17,7 +17,6 @@ export const queryItem = ({ query, actions = {} }) => {
 };
 
 export const findAllItem = ({ actions = {} }) => {
-  debugger;
   return {
     type: types.ITEM_FIND_ALL_REQUEST,
     actions

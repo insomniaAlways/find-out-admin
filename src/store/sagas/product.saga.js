@@ -13,7 +13,6 @@ async function getAllData() {
   try {
     const response = await findAll("product");
     if (response.data) {
-      debugger;
       return response.data;
     }
     return response;
@@ -23,10 +22,8 @@ async function getAllData() {
 }
 async function idData(id) {
   try {
-    debugger;
     const response = await findRecord("product", id);
     if (response.data) {
-      debugger;
       return response.data;
     }
     return response;
@@ -60,18 +57,17 @@ function* findAllSaga({ actions = {} }) {
 }
 
 function* findByIdSaga({ product_id, actions = {} }) {
-  try {
-    debugger;
-    yield put({ type: types.PRODUCT_REQUEST_INITIATED });
-    const payload = yield call(idData, product_id);
-    const normalizedData = yield call(normalizeData, {
-      data: payload,
-      schema: productArraySchema
-    });
-    yield put(findByIdProductSucceed({ payload: normalizedData, meta: {} }));
-  } catch (error) {
-    yield call(catchReduxError, error);
-  }
+  // try {
+  //   yield put({ type: types.PRODUCT_REQUEST_INITIATED });
+  //   const payload = yield call(idData, product_id);
+  //   const normalizedData = yield call(normalizeData, {
+  //     data: payload,
+  //     schema: productArraySchema
+  //   });
+  //   yield put(findByIdProductSucceed({ payload: normalizedData, meta: {} }));
+  // } catch (error) {
+  //   yield call(catchReduxError, error);
+  // }
 }
 
 function* querySaga({ query, actions = {} }) {

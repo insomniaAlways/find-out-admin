@@ -1,12 +1,11 @@
-import { all, fork, put, takeLatest } from 'redux-saga/effects';
-import { cartItemActionTypes as types } from '../action-types';
+import { all, fork, put, takeLatest } from "redux-saga/effects";
+import { cartItemActionTypes as types } from "../action-types";
 
 function* querySaga({ query, actions = {} }) {
   yield put({ type: types.CARTITEM_REQUEST_INITIATED });
 }
 
 function* createSaga({ payload, actions = {} }) {
-  console.log('createSaga', payload);
   yield put({ type: types.CARTITEM_REQUEST_INITIATED });
 }
 
@@ -37,10 +36,5 @@ function* watcherDelete() {
 }
 
 export default function* rootCartItemSaga() {
-  yield all([
-    fork(watcherCreate),
-    fork(watcherQuery),
-    fork(watcherUpdate),
-    fork(watcherDelete),
-  ]);
+  yield all([fork(watcherCreate), fork(watcherQuery), fork(watcherUpdate), fork(watcherDelete)]);
 }

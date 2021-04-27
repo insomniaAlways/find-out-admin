@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector } from "reselect";
 
 const getIsLoading = (state, modelName) => state[modelName].request.isLoading;
 
@@ -25,17 +25,10 @@ const getData = (state, modelName, id) => {
 };
 
 export const getDataById = () =>
-  createSelector(
-    [getIsLoading, checkHasData, getData],
-    (isLoading, hasData, data) => {
-      if (isLoading) {
-        return { status: 'loading' };
-      } else if (data && Object.keys(data).length) {
-        return data;
-      } else if (!isLoading && hasData && !data) {
-        return { status: 'not found' };
-      } else {
-        return { status: 'not available' };
-      }
-    },
-  );
+  createSelector([getIsLoading, checkHasData, getData], (isLoading, hasData, data) => {
+    if (data && Object.keys(data).length) {
+      return data;
+    } else {
+      return { status: "not available" };
+    }
+  });

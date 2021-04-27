@@ -57,17 +57,17 @@ function* findAllSaga({ actions = {} }) {
 }
 
 function* findByIdSaga({ product_id, actions = {} }) {
-  try {
-    yield put({ type: types.PRODUCT_REQUEST_INITIATED });
-    const payload = yield call(idData, product_id);
-    const normalizedData = yield call(normalizeData, {
-      data: payload,
-      schema: productArraySchema
-    });
-    yield put(findByIdProductSucceed({ payload: normalizedData, meta: {} }));
-  } catch (error) {
-    yield call(catchReduxError, error);
-  }
+  // try {
+  //   yield put({ type: types.PRODUCT_REQUEST_INITIATED });
+  //   const payload = yield call(idData, product_id);
+  //   const normalizedData = yield call(normalizeData, {
+  //     data: payload,
+  //     schema: productArraySchema
+  //   });
+  //   yield put(findByIdProductSucceed({ payload: normalizedData, meta: {} }));
+  // } catch (error) {
+  //   yield call(catchReduxError, error);
+  // }
 }
 
 function* querySaga({ query, actions = {} }) {

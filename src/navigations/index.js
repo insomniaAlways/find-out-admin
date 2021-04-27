@@ -19,6 +19,7 @@ import CategoryEdit from "../screens/category/edit";
 import Register from "../screens/registration";
 import ChangePassword from "../screens/authentication/change-password";
 import RegisterStore from "../screens/registration/register-store";
+import ProductCreate from "../screens/product/create";
 
 export const preload = (route) => {
   const loadableComponent = route.component;
@@ -66,18 +67,6 @@ export const privateRoutes = [
     component: Order
   },
   {
-    path: "/item",
-    component: Item
-  },
-  {
-    path: "/item/create",
-    component: ItemCreate
-  },
-  {
-    path: "/item/:item_id/edit",
-    component: ItemEdit
-  },
-  {
     path: "/change-password",
     component: ChangePassword
   },
@@ -90,8 +79,12 @@ export const privateRoutes = [
     component: Product
   },
   {
-    path: "/product-details/:product_id/edit",
+    path: "/product/:seller_product_id/details",
     component: ProductEdit
+  },
+  {
+    path: "/product/create",
+    component: ProductCreate
   }
 ];
 

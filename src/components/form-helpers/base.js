@@ -8,6 +8,8 @@ import omitBy from "lodash/omitBy";
 import isNil from "lodash/isNil";
 
 const FormBase = (props) => {
+  debugger;
+
   const {
     fields,
     initialValues,
@@ -21,6 +23,7 @@ const FormBase = (props) => {
   } = props;
 
   const FormLayout = ({ field, ...rest }) => {
+    debugger;
     useEffect(() => {
       if (rest.shouldDisabled) {
         rest.setSubmitting(true);
@@ -66,16 +69,14 @@ const FormBase = (props) => {
           <div
             className={clsx(
               submitButtonFieldClassNames || "ui segment text-center border-radius-none"
-            )}
-          >
+            )}>
             {status && (
               <p className="text-color-negative">Error generating event data. Please try again.</p>
             )}
             <button
               type="submit"
               className={clsx(submitButtonClassNames || "ui positive button padding-md")}
-              disabled={isSubmitting}
-            >
+              disabled={isSubmitting}>
               {submitButtonLabel}
             </button>
           </div>

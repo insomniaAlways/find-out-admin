@@ -1,81 +1,83 @@
-import { all, takeLatest, takeEvery, fork, call, put } from "redux-saga/effects";
+import { all, call, fork, put, takeLatest } from "redux-saga/effects";
+import { findAll, query, findRecord } from "../server";
 import { productBrandActionTypes as types } from "../action-types";
-import {
-  findAllProductBrandSucceed,
-  queryProductBrandSucceed
-} from "../actions/product-brand.action";
 import { catchReduxError, normalizeData } from "../actions/general.action";
-import { productBrandArraySchema } from "../schemas";
-import { findAll, query } from "../server";
+import { productBrandArraySchema, productBrandSchema } from "../schemas";
+import { storeProductBrand } from "../actions/product-brand.action";
 
-async function getAllData() {
+async function makeRequest(type, data) {
   try {
-    const response = await findAll("product-brand");
-    if (response.data) {
-      return response.data;
+    let response = {};
+    if (type === "query") {
+      response = await query("product-brand", data);
+    } else if (type === "byId") {
+      response = await findRecord("product-brand", data);
+    } else {
+      response = await findAll("product-brand");
     }
-    return response;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function queryData(q) {
-  try {
-    const response = await query("product-brand", q);
     if (response.data) {
       return response.data;
+    } else {
+      return response;
     }
   } catch (error) {
     throw error;
   }
 }
 
-function* findAllSaga({ actions = {} }) {
+function* workerFindAll({ actions = {} }) {
   try {
-    yield put({ type: types.PRODUCTBRAND_REQUEST_INITIATED });
-    const payload = yield call(getAllData);
+    const response = yield call(makeRequest);
     const normalizedData = yield call(normalizeData, {
-      data: payload,
+      data: response,
       schema: productBrandArraySchema
     });
-    yield put(findAllProductBrandSucceed({ payload: normalizedData, meta: {} }));
+    yield put(storeProductBrand({ payload: normalizedData, meta: {} }));
   } catch (error) {
-    yield call(catchReduxError, error);
+    yield call(catchReduxError, types["PRODUCT-BRAND_REQUEST_FAILED"], error);
   }
 }
 
-function* findByIdSaga({ product_brand_id, actions = {} }) {
-  yield put({ type: types.PRODUCTBRAND_REQUEST_INITIATED });
-}
-
-function* querySaga({ query, actions = {} }) {
+function* workerQuery({ query = {}, actions = {} }) {
   try {
-    yield put({ type: types.PRODUCTBRAND_REQUEST_INITIATED });
-    const payload = yield call(queryData, query);
+    const response = yield call(makeRequest, "query", query);
     const normalizedData = yield call(normalizeData, {
-      data: payload,
+      data: response,
       schema: productBrandArraySchema
     });
-    yield put(queryProductBrandSucceed({ payload: normalizedData, meta: {} }));
+    yield put(storeProductBrand({ payload: normalizedData, meta: {} }));
   } catch (error) {
-    yield call(catchReduxError, error);
+    yield call(catchReduxError, types["PRODUCT-BRAND_REQUEST_FAILED"], error);
   }
 }
 
-// -------------------- watchers --------------------
+function* workerFindById({ product_brand_id, actions = {} }) {
+  try {
+    const response = yield call(makeRequest, "byId", product_brand_id);
+    const normalizedData = yield call(normalizeData, {
+      data: response,
+      schema: productBrandSchema
+    });
+    yield put(storeProductBrand({ payload: normalizedData, meta: {} }));
+  } catch (error) {
+    yield call(catchReduxError, types["PRODUCT-BRAND_REQUEST_FAILED"], error);
+  }
+}
+
+// ---------------- watchers -----------------------
+
 function* watcherFindAll() {
-  yield takeLatest(types.PRODUCTBRAND_FIND_ALL_REQUEST, findAllSaga);
-}
-
-function* watcherFindById() {
-  yield takeEvery(types.PRODUCTBRAND_FIND_BY_ID_REQUEST, findByIdSaga);
+  yield takeLatest(types["PRODUCT-BRAND_FIND_ALL_REQUEST"], workerFindAll);
 }
 
 function* watcherQuery() {
-  yield takeLatest(types.PRODUCTBRAND_QUERY_REQUEST, querySaga);
+  yield takeLatest(types["PRODUCT-BRAND_QUERY_REQUEST"], workerQuery);
 }
 
-export default function* rootProductBrandSaga() {
-  yield all([fork(watcherFindAll), fork(watcherFindById), fork(watcherQuery)]);
+function* watcherFindById() {
+  yield takeLatest(types["PRODUCT-BRAND_FIND_BY_ID_REQUEST"], workerFindById);
+}
+
+export default function* rootSaga() {
+  yield all([fork(watcherFindAll), fork(watcherQuery), fork(watcherFindById)]);
 }

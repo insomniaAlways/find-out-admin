@@ -24,8 +24,8 @@ function Product(props) {
   const history = useHistory();
 
   const rowClickHandler = (row) => {
-    const { values } = row;
-    history.push("/product/" + values.id + "/details");
+    const { original } = row;
+    history.push("/product/" + original.id + "/details");
   };
 
   console.log(products);

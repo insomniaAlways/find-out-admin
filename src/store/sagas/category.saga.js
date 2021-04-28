@@ -1,20 +1,13 @@
-import {
-  all,
-  takeLatest,
-  takeEvery,
-  fork,
-  call,
-  put,
-} from 'redux-saga/effects';
-import { categoryActionTypes as types } from '../action-types';
-import { findAllCategorySucceed } from '../actions/category.action';
-import { catchReduxError, normalizeData } from '../actions/general.action';
-import { categoryArraySchema } from '../schemas';
-import { findAll } from '../server';
+import { all, takeLatest, takeEvery, fork, call, put } from "redux-saga/effects";
+import { categoryActionTypes as types } from "../action-types";
+import { findAllCategorySucceed } from "../actions/category.action";
+import { catchReduxError, normalizeData } from "../actions/general.action";
+import { categoryArraySchema } from "../schemas";
+import { findAll } from "../server";
 
 async function getAllData() {
   try {
-    const response = await findAll('category');
+    const response = await findAll("category");
     if (response.data) {
       return response.data;
     }
@@ -30,7 +23,7 @@ function* findAllSaga({ actions = {} }) {
     const payload = yield call(getAllData);
     const normalizedData = yield call(normalizeData, {
       data: payload,
-      schema: categoryArraySchema,
+      schema: categoryArraySchema
     });
     yield put(findAllCategorySucceed({ payload: normalizedData, meta: {} }));
   } catch (error) {

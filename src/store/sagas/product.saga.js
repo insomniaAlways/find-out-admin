@@ -1,27 +1,34 @@
 import { all, takeLatest, takeEvery, fork, call, put } from "redux-saga/effects";
 import { productActionTypes as types } from "../action-types";
-import { findAllProductSucceed, queryProductSucceed } from "../actions/product.action";
+import {
+  findAllProductSucceed,
+  queryProductSucceed,
+  findByIdProductSucceed
+} from "../actions/product.action";
 import { catchReduxError, normalizeData } from "../actions/general.action";
 import { productArraySchema } from "../schemas";
-import { findAll, query } from "../server";
+import { findAll, query, findRecord } from "../server";
 
-async function getAllData() {
+async function makeRequest(type, data) {
   try {
-    const response = await findAll("product");
-    if (response.data) {
-      return response.data;
+    let response = {};
+    if (type === "query") {
+      response = await query("product", data, {
+        baseURL: "https://findoutv1.herokuapp.com/api/v1"
+      });
+    } else if (type === "byId") {
+      response = await findRecord("product", data, {
+        baseURL: "https://findoutv1.herokuapp.com/api/v1"
+      });
+    } else {
+      response = await findAll("product", {
+        baseURL: "https://findoutv1.herokuapp.com/api/v1"
+      });
     }
-    return response;
-  } catch (error) {
-    throw error;
-  }
-}
-
-async function queryData(q) {
-  try {
-    const response = await query("product", q);
     if (response.data) {
       return response.data;
+    } else {
+      return response;
     }
   } catch (error) {
     throw error;
@@ -31,7 +38,7 @@ async function queryData(q) {
 function* findAllSaga({ actions = {} }) {
   try {
     yield put({ type: types.PRODUCT_REQUEST_INITIATED });
-    const payload = yield call(getAllData);
+    const payload = yield call(makeRequest);
     const normalizedData = yield call(normalizeData, {
       data: payload,
       schema: productArraySchema
@@ -43,13 +50,23 @@ function* findAllSaga({ actions = {} }) {
 }
 
 function* findByIdSaga({ product_id, actions = {} }) {
-  yield put({ type: types.PRODUCT_REQUEST_INITIATED });
+  // try {
+  //   yield put({ type: types.PRODUCT_REQUEST_INITIATED });
+  //   const payload = yield call(idData, product_id);
+  //   const normalizedData = yield call(normalizeData, {
+  //     data: payload,
+  //     schema: productArraySchema
+  //   });
+  //   yield put(findByIdProductSucceed({ payload: normalizedData, meta: {} }));
+  // } catch (error) {
+  //   yield call(catchReduxError, error);
+  // }
 }
 
 function* querySaga({ query, actions = {} }) {
   try {
     yield put({ type: types.PRODUCT_REQUEST_INITIATED });
-    const payload = yield call(queryData, query);
+    const payload = yield call(makeRequest, "query", query);
     const normalizedData = yield call(normalizeData, {
       data: payload,
       schema: productArraySchema

@@ -1,11 +1,11 @@
 import axios from "axios";
 // import ENV from 'environment';
-// import store from '../';
+import store from "../";
 // import { initUnAuthenticate } from '../actions/session.action';
 
-const host = "https://findoutv1.herokuapp.com/api/v1/";
+const host = "https://findoutv1.herokuapp.com/admin/v1/";
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: host,
   headers: {
     common: {}
@@ -13,7 +13,16 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  (config) => config,
+  (config) => {
+    let state = store.getState();
+    if (state.session && state.session.isAuthenticated) {
+      let header = {
+        authorization: `Bearer ${state.session.token}`
+      };
+      config.headers.common = { ...config.headers.common, ...header };
+    }
+    return config;
+  },
   (error) => Promise.reject(error)
 );
 
@@ -36,9 +45,9 @@ async function getRecord(url, config) {
 }
 
 //GET Calls
-export function findAll(type) {
+export function findAll(type, config = {}) {
   let url = `/${type}`;
-  return getRecord(url);
+  return getRecord(url, config);
 }
 
 export function findRecord(type, id, config = {}) {
@@ -64,6 +73,7 @@ export async function createRecord(type, payload = {}, config = {}) {
   if (!type) {
     throw new Error("'type' not provided");
   }
+
   let url = `/${type}`;
   return await axiosInstance.post(url, payload, config);
 }
@@ -82,4 +92,9 @@ export function updateRecord(type, id, payload = {}) {
 
 export async function patch(type, payload = {}, config = {}) {
   return axiosInstance.patch(type, payload, config);
+}
+
+export function deleteRecord(type, id, payload) {
+  let url = `${type}/${id}`;
+  return axiosInstance.delete(url);
 }

@@ -1,4 +1,4 @@
-import { productBrandActionTypes as types } from "../action-types";
+import { sellerProductActionTypes as types } from "../action-types";
 import { getById } from "./extract-id.reducer";
 import { combineReducers } from "redux";
 
@@ -12,14 +12,14 @@ const initialState = {
 };
 const request = (state = initialState.request, action) => {
   switch (action.type) {
-    case types["PRODUCT-BRAND_QUERY_REQUEST"] || types["PRODUCT-BRAND_FIND_ALL_REQUEST"]: {
+    case types["SELLER-PRODUCT_QUERY_REQUEST"] || types["SELLER-PRODUCT_FIND_ALL_REQUEST"]: {
       return {
         ...state,
         isLoading: true,
         error: null
       };
     }
-    case types["PRODUCT-BRAND_REQUEST_SUCCEED"]: {
+    case types["SELLER-PRODUCT_SUCCEED"]: {
       return {
         ...state,
         isLoading: false,
@@ -29,7 +29,7 @@ const request = (state = initialState.request, action) => {
         }
       };
     }
-    case types["PRODUCT-BRAND_REQUEST_FAILED"]: {
+    case types["SELLER-PRODUCT_FAILED"]: {
       return {
         ...state,
         isLoading: false,
@@ -42,7 +42,7 @@ const request = (state = initialState.request, action) => {
 };
 
 const dataReducer = combineReducers({
-  byId: getById("product-brand")
+  byId: getById("seller-product")
 });
 
 const cartItemReducer = combineReducers({

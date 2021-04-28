@@ -15,7 +15,7 @@ const columns = [
 ];
 function Category(props) {
   const { categories, fetchCategory, request } = props;
-  console.log(categories);
+
   return (
     <div className="ui container">
       <TableCommon
@@ -37,7 +37,9 @@ const mapStateToProps = () => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchCategory: (query) => dispatch(findAllCategory({ actions: {} }))
+  fetchCategory: (query) => {
+    dispatch(findAllCategory({ actions: {} }));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Category);

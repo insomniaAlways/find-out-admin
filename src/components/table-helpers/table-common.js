@@ -21,7 +21,8 @@ function TableCommon(props) {
     error,
     containerClassNames = "",
     disablePagination = false,
-    tableWrapperClassNames = ""
+    tableWrapperClassNames = "",
+    defaultQuery = {}
   } = props;
 
   const history = useHistory();
@@ -58,10 +59,13 @@ function TableCommon(props) {
   /* --------------------------- Methods ------------------------------- */
 
   const makeRequest = () => {
-    const queryParams = {
-      page: pageIndex + 1
-    };
-    fetchData({ ...queryParams, ...props.queryParams });
+    if (fetchData) {
+      const queryParams = {
+        page: pageIndex + 1,
+        ...defaultQuery
+      };
+      fetchData({ ...queryParams, ...props.queryParams });
+    }
   };
 
   const cellClickHandler = (e, cell, row) => {
@@ -107,20 +111,22 @@ function TableCommon(props) {
   }, [totalCount, qs.page]);
 
   useEffect(() => {
-    makeRequest();
-    const targetPage = pageIndex + 1;
-    const stringified = queryString.stringify({ ...qs, page: targetPage });
-    if (!qs.page) {
-      // If page is not available in the url, instead of pushing to the history replacing it.
-      history.replace({
-        pathname: history.location.pathname,
-        search: "?" + stringified
-      });
-    } else if (targetPage !== parseInt(qs.page, 10)) {
-      history.push({
-        pathname: history.location.pathname,
-        search: "?" + stringified
-      });
+    if (fetchData) {
+      makeRequest();
+      const targetPage = pageIndex + 1;
+      const stringified = queryString.stringify({ ...qs, page: targetPage });
+      if (!qs.page) {
+        // If page is not available in the url, instead of pushing to the history replacing it.
+        history.replace({
+          pathname: history.location.pathname,
+          search: "?" + stringified
+        });
+      } else if (targetPage !== parseInt(qs.page, 10)) {
+        history.push({
+          pathname: history.location.pathname,
+          search: "?" + stringified
+        });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex]);

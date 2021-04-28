@@ -1,19 +1,27 @@
-import React, { memo, useMemo } from "react";
-import AsyncDropdown from "../elements/async-dropdown";
+import React, { useMemo } from "react";
 import { Form } from "semantic-ui-react";
 import clsx from "clsx";
-import { ErrorMessage, useField } from "formik";
+import { ErrorMessage, useField, useFormikContext } from "formik";
 import PropTypes from "prop-types";
 import Dropdown from "../elements/dropdown";
 
-const FormDropdown = memo((props) => {
+function ProductBrandDropdown(props) {
   const { field, isSubmitting } = props;
-  const { placeholder, width, inputClassNames, valuePath, infoPlaceholder, isRemote } = field;
+  const { placeholder, width, inputClassNames, valuePath, infoPlaceholder } = field;
   const [formikField, meta] = useField({ name: valuePath });
-
+  const {
+    values: { product },
+    setFieldValue
+  } = useFormikContext();
+  console.log(props, formikField, meta, product);
   const hasError = useMemo(() => meta.error && meta.touched, [meta.error, meta.touched]);
 
   const value = useMemo(() => formikField.value, [formikField.value]);
+
+  const listSource = useMemo(
+    () => (product && product.product_brands ? product.product_brands : []),
+    [product]
+  );
 
   const onChange = (data, e) => {
     e.target.name = valuePath;
@@ -31,29 +39,17 @@ const FormDropdown = memo((props) => {
       className={clsx("text-color-black", inputClassNames, { error: hasError })}
       disabled={isSubmitting}
       key={valuePath}>
-      {isRemote ? (
-        <AsyncDropdown
-          key={"dropdown"}
-          isSearchEnabled={true}
-          setSelectedOption={onChange}
-          handleBlur={onHandleBlur}
-          selectedOption={value}
-          name={valuePath}
-          placeholder={placeholder}
-          {...field}
-        />
-      ) : (
-        <Dropdown
-          key={"dropdown"}
-          isSearchEnabled={true}
-          setSelectedOption={onChange}
-          handleBlur={onHandleBlur}
-          selectedOption={value}
-          name={valuePath}
-          placeholder={placeholder}
-          {...field}
-        />
-      )}
+      <Dropdown
+        key={"dropdown"}
+        listSource={listSource}
+        isSearchEnabled={true}
+        setSelectedOption={onChange}
+        handleBlur={onHandleBlur}
+        selectedOption={value}
+        name={valuePath}
+        placeholder={placeholder}
+        {...field}
+      />
       <div className="info placeholder text-size-ten text-color-semilightgrey">
         {hasError ? (
           <span className="text-color-negative">
@@ -65,11 +61,6 @@ const FormDropdown = memo((props) => {
       </div>
     </Form.Field>
   );
-});
+}
 
-export default FormDropdown;
-
-FormDropdown.propTypes = {
-  field: PropTypes.object,
-  isSubmitting: PropTypes.bool
-};
+export default ProductBrandDropdown;

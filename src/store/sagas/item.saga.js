@@ -1,20 +1,13 @@
-import {
-  all,
-  takeLatest,
-  takeEvery,
-  fork,
-  call,
-  put,
-} from 'redux-saga/effects';
-import { itemActionTypes as types } from '../action-types';
-import { findAllItemSucceed, queryItemSucceed } from '../actions/item.action';
-import { catchReduxError, normalizeData } from '../actions/general.action';
-import { itemArraySchema } from '../schemas';
-import { findAll, query } from '../server';
+import { all, takeLatest, takeEvery, fork, call, put } from "redux-saga/effects";
+import { itemActionTypes as types } from "../action-types";
+import { findAllItemSucceed, queryItemSucceed } from "../actions/item.action";
+import { catchReduxError, normalizeData } from "../actions/general.action";
+import { itemArraySchema } from "../schemas";
+import { findAll, query } from "../server";
 
 async function getAllData() {
   try {
-    const response = await findAll('item');
+    const response = await findAll("product");
     if (response.data) {
       return response.data;
     }
@@ -26,7 +19,7 @@ async function getAllData() {
 
 async function queryData(q) {
   try {
-    const response = await query('item', q);
+    const response = await query("product", q);
     if (response.data) {
       return response.data;
     }
@@ -39,11 +32,14 @@ function* findAllSaga({ actions = {} }) {
   try {
     yield put({ type: types.ITEM_REQUEST_INITIATED });
     const payload = yield call(getAllData);
-    const normalizedData = yield call(normalizeData, {
-      data: payload,
-      schema: itemArraySchema,
-    });
-    yield put(findAllItemSucceed({ payload: normalizedData, meta: {} }));
+    if (payload.data !== []) {
+      const normalizedData = yield call(normalizeData, {
+        data: payload,
+        schema: itemArraySchema
+      });
+      yield put(findAllItemSucceed({ payload: normalizedData, meta: {} }));
+    } else {
+    }
   } catch (error) {
     yield call(catchReduxError, error);
   }
@@ -59,13 +55,23 @@ function* querySaga({ query, actions = {} }) {
     const payload = yield call(queryData, query);
     const normalizedData = yield call(normalizeData, {
       data: payload,
-      schema: itemArraySchema,
+      schema: itemArraySchema
     });
     yield put(queryItemSucceed({ payload: normalizedData, meta: {} }));
   } catch (error) {
     yield call(catchReduxError, error);
   }
 }
+
+// function* workerUnAuthenticate() {
+//   try {
+
+//     localStorage.removeItem("find-out-session");
+//     yield put({ type: types.UNAUTHENTICATE_SUCCESS });
+//   } catch (error) {
+//     yield put({ type: types.AUTHENTICATION_REQUEST_FAILED, error });
+//   }
+// }
 
 // -------------------- watchers --------------------
 function* watcherFindAll() {
@@ -80,6 +86,15 @@ function* watcherQuery() {
   yield takeLatest(types.ITEM_QUERY_REQUEST, querySaga);
 }
 
+// function* watcherUnAuthenticate() {
+//   yield takeLatest(types.UNAUTHENTICATE_REQUEST_INITIATED, workerUnAuthenticate);
+// }
+
 export default function* rootItemSaga() {
-  yield all([fork(watcherFindAll), fork(watcherFindById), fork(watcherQuery)]);
+  yield all([
+    fork(watcherFindAll),
+    fork(watcherFindById),
+    fork(watcherQuery)
+    //fork(watcherUnAuthenticate)
+  ]);
 }

@@ -12,6 +12,13 @@ const request = (state = initialState.request, action) => {
         error: null
       };
     }
+    case types.PRODUCT_FIND_BY_ID_REQUEST_INITIATED: {
+      return {
+        ...state,
+        isLoading: true,
+        error: null
+      };
+    }
     case types.PRODUCT_FIND_ALL_REQUEST_SUCCEED: {
       return {
         ...state,

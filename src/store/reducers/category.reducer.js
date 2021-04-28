@@ -1,7 +1,7 @@
-import { categoryActionTypes as types } from '../action-types';
-import { categoryInitialState as initialState } from '../initial-state';
-import { combineReducers } from 'redux';
-import { getById } from './extract-id.reducer';
+import { categoryActionTypes as types } from "../action-types";
+import { categoryInitialState as initialState } from "../initial-state";
+import { combineReducers } from "redux";
+import { getById } from "./extract-id.reducer";
 
 const request = (state = initialState.request, action) => {
   switch (action.type) {
@@ -9,49 +9,49 @@ const request = (state = initialState.request, action) => {
       return {
         ...state,
         isLoading: true,
-        error: null,
+        error: null
       };
     }
     case types.CATEGORY_FIND_ALL_REQUEST_SUCCEED: {
       return {
         ...state,
         isLoading: false,
-        meta: action.meta,
+        meta: action.meta
       };
     }
     case types.CATEGORY_FIND_ALL_REQUEST_FAILED: {
       return {
         ...state,
         isLoading: false,
-        error: action.error,
+        error: action.error
       };
     }
     case types.CATEGORY_FIND_BY_ID_REQUEST_SUCCEED: {
       return {
         ...state,
         isLoading: false,
-        meta: action.meta,
+        meta: action.meta
       };
     }
     case types.CATEGORY_FIND_BY_ID_REQUEST_FAILED: {
       return {
         ...state,
         isLoading: false,
-        error: action.error,
+        error: action.error
       };
     }
     case types.CATEGORY_QUERY_REQUEST_SUCCEED: {
       return {
         ...state,
         isLoading: false,
-        meta: action.meta,
+        meta: action.meta
       };
     }
     case types.CATEGORY_QUERY_REQUEST_FAILED: {
       return {
         ...state,
         isLoading: false,
-        error: action.error,
+        error: action.error
       };
     }
     default: {
@@ -61,12 +61,12 @@ const request = (state = initialState.request, action) => {
 };
 
 const dataReducer = combineReducers({
-  byId: getById('category'),
+  byId: getById("category")
 });
 
 const categoryReducer = combineReducers({
   request,
-  data: dataReducer,
+  data: dataReducer
 });
 
 export default categoryReducer;

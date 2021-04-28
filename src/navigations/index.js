@@ -17,6 +17,7 @@ import ItemCreate from "../screens/item/create";
 import CategoryCreate from "../screens/category/create";
 import CategoryEdit from "../screens/category/edit";
 import Register from "../screens/registration";
+import Login from "../screens/login";
 import ChangePassword from "../screens/authentication/change-password";
 import RegisterStore from "../screens/registration/register-store";
 import ProductCreate from "../screens/product/create";
@@ -38,6 +39,11 @@ export const publicRoutes = [
     key: "registration",
     path: "/register",
     component: Register
+  },
+  {
+    key: "loginform",
+    path: "/login.form",
+    component: Login
   }
 ];
 

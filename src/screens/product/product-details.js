@@ -8,7 +8,8 @@ import TableCommon from "../../components/table-helpers/table-common";
 const columns = [
   {
     Header: "Item",
-    accessor: "brand_name"
+    accessor: "brand_name",
+    headerClassName: "text-color-white"
   }
 ];
 

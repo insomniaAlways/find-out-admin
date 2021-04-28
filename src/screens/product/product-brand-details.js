@@ -10,19 +10,23 @@ import { getListData } from "../../store/selectors/data.selector";
 const columns = [
   {
     Header: "Packet(gm)",
-    accessor: "available_unit"
+    accessor: "available_unit",
+    headerClassName: "text-color-white"
   },
   {
     Header: "MRP",
-    accessor: "mrp_price"
+    accessor: "mrp_price",
+    headerClassName: "text-color-white"
   },
   {
     Header: "Price",
-    accessor: "price"
+    accessor: "price",
+    headerClassName: "text-color-white"
   },
   {
     Header: "Available Quantity",
-    accessor: "quantity"
+    accessor: "quantity",
+    headerClassName: "text-color-white"
   }
 ];
 

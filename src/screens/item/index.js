@@ -6,11 +6,13 @@ import { findAllItem } from "../../store/actions/item.action";
 const columns = [
   {
     Header: "Id",
-    accessor: "id"
+    accessor: "id",
+    headerClassName: "text-color-white"
   },
   {
     Header: "Name",
-    accessor: "name"
+    accessor: "name",
+    headerClassName: "text-color-white"
   }
 ];
 function Item(props) {
@@ -18,15 +20,13 @@ function Item(props) {
   console.log(items);
 
   return (
-    <div className="ui container">
-      <TableCommon
-        columns={columns}
-        data={items}
-        fetchData={fetchItem}
-        isLoading={request.isLoading}
-        tableClassName={"ui simple table"}
-      />
-    </div>
+    <TableCommon
+      columns={columns}
+      data={items}
+      fetchData={fetchItem}
+      isLoading={request.isLoading}
+      tableClassName={"ui simple table"}
+    />
   );
 }
 

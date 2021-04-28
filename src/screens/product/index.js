@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import TableCommon from "../../components/table-helpers/table-common";
 import { useHistory } from "react-router-dom";
 import { findAllSellerProduct } from "../../store/actions/seller-product.action";
+import { getListData } from "../../store/selectors/data.selector";
 const columns = [
   {
     Header: "Id",
@@ -11,17 +12,24 @@ const columns = [
   {
     Header: "Name",
     accessor: "name"
+  },
+  {
+    Header: "Unit",
+    accessor: "unit"
   }
 ];
 
 function Product(props) {
   const { products, fetchSellerProduct, request } = props;
-  let history = useHistory();
+  const history = useHistory();
+
   const rowClickHandler = (row) => {
     const { values } = row;
-    //const [original] = row;
-    history.push("/product-details/" + values.id + "/edit");
+    history.push("/product/" + values.id + "/details");
   };
+
+  console.log(products);
+
   return (
     <div className="ui container">
       <TableCommon
@@ -37,8 +45,9 @@ function Product(props) {
 }
 
 const mapStateToProps = () => {
+  const getData = getListData();
   return (state) => ({
-    products: Object.values(state.sellerProduct.data.byId),
+    products: getData(state, "sellerProduct"),
     request: state.sellerProduct.request
   });
 };

@@ -51,6 +51,9 @@ const fields = [
     isRemote: true,
     width: 10,
     remotePath: "product",
+    axiosConfig: {
+      baseURL: "https://findoutv1.herokuapp.com/api/v1"
+    },
     optionLabel: "name",
     validate: (values) => {
       let error = requiredCheck(values, "product");

@@ -5,7 +5,7 @@ import { findByIdSellerProduct } from "../../store/actions/seller-product.action
 import { getDataById } from "../../store/selectors/find-data.selector";
 
 const ProductEdit = (props) => {
-  const { fetchSellerProduct } = props;
+  const { fetchSellerProduct, sellerProduct } = props;
   const { seller_product_id } = useParams();
 
   useEffect(() => {
@@ -16,7 +16,9 @@ const ProductEdit = (props) => {
 
   return (
     <>
-      <div>{seller_product_id}</div>
+      <div>
+        <h3>{sellerProduct.name}</h3>
+      </div>
     </>
   );
 };

@@ -3,7 +3,7 @@ import AsyncSelect from "react-select/async";
 import { axiosInstance } from "../../store/server";
 
 function AsyncDropdown(props) {
-  const { remotePath, optionLabel } = props;
+  const { remotePath, optionLabel, axiosConfig = {} } = props;
   const [state, setState] = useState({
     selectedOption: null,
     searchText: ""
@@ -18,7 +18,8 @@ function AsyncDropdown(props) {
     const response = await axiosInstance.get(remotePath, {
       params: {
         searchText: s.trim()
-      }
+      },
+      ...axiosConfig
     });
     if (response.data) {
       return response.data;

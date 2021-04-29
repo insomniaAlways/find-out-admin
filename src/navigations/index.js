@@ -9,11 +9,8 @@ import ErrorBoundary from "./error-boundary";
 import LoadingContainer from "./loading-container";
 import Category from "../screens/category";
 import Order from "../screens/order";
-import Item from "../screens/item";
 import Product from "../screens/product";
-import ProductEdit from "../screens/product/edit";
-import ItemEdit from "../screens/item/edit";
-import ItemCreate from "../screens/item/create";
+import ProductDetails from "../screens/product/product-details";
 import CategoryCreate from "../screens/category/create";
 import CategoryEdit from "../screens/category/edit";
 import Register from "../screens/registration";
@@ -21,6 +18,7 @@ import Login from "../screens/login";
 import ChangePassword from "../screens/authentication/change-password";
 import RegisterStore from "../screens/registration/register-store";
 import ProductCreate from "../screens/product/create";
+import ProductBrandDetails from "../screens/product/product-brand-details";
 
 export const preload = (route) => {
   const loadableComponent = route.component;
@@ -81,16 +79,20 @@ export const privateRoutes = [
     component: RegisterStore
   },
   {
-    path: "/product",
-    component: Product
+    path: "/product/:seller_product_id/product-brand/:product_brand_id/details",
+    component: ProductBrandDetails
   },
   {
     path: "/product/:seller_product_id/details",
-    component: ProductEdit
+    component: ProductDetails
   },
   {
     path: "/product/create",
     component: ProductCreate
+  },
+  {
+    path: "/product",
+    component: Product
   }
 ];
 
@@ -109,7 +111,9 @@ const PrivateRoute = ({ component: Component, isAuthenticated, currentUserRole, 
         ) : (
           <>
             <Navbar />
-            <Component {...props} />
+            <div className="ui container">
+              <Component {...props} />
+            </div>
           </>
         )
       }

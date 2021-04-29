@@ -25,14 +25,12 @@ function RegisterStore(props) {
   }, []);
 
   return (
-    <div className="ui container">
-      <Form
-        initialValues={initialValues}
-        fields={fields}
-        postRequest={save}
-        submitButtonLabel={"Register store"}
-      />
-    </div>
+    <Form
+      initialValues={initialValues}
+      fields={fields}
+      postRequest={save}
+      submitButtonLabel={"Register store"}
+    />
   );
 }
 

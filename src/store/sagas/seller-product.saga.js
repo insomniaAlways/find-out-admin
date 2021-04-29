@@ -9,11 +9,11 @@ async function makeRequest(type, data) {
   try {
     let response = {};
     if (type === "query") {
-      response = await query("seller-product", data);
+      response = await query("product", data);
     } else if (type === "byId") {
-      response = await findRecord("seller-product", data);
+      response = await findRecord("product", data);
     } else {
-      response = await findAll("seller-product");
+      response = await findAll("product");
     }
     if (response.data) {
       return response.data;
@@ -27,7 +27,7 @@ async function makeRequest(type, data) {
 
 async function createRequest(payload) {
   try {
-    const response = await createRecord("seller-product", payload);
+    const response = await createRecord("product", payload);
     if (response.data) {
       return response.data;
     } else {
@@ -40,7 +40,7 @@ async function createRequest(payload) {
 
 async function updateRequest(id, payload) {
   try {
-    const response = await updateRecord("seller-product", id, payload);
+    const response = await updateRecord("product", id, payload);
     if (response.data) {
       return response.data;
     } else {
@@ -53,7 +53,7 @@ async function updateRequest(id, payload) {
 
 async function deleteRequest(id) {
   try {
-    const response = await deleteRecord("seller-product", id);
+    const response = await deleteRecord("product", id);
     if (response.data) {
       return response.data;
     } else {
@@ -95,7 +95,7 @@ function* workerFindById({ seller_product_id, actions = {} }) {
     const response = yield call(makeRequest, "byId", seller_product_id);
     const normalizedData = yield call(normalizeData, {
       data: response,
-      schema: sellerProductArraySchema
+      schema: sellerProductSchema
     });
     yield put(storeSellerProduct({ payload: normalizedData, meta: {} }));
   } catch (error) {

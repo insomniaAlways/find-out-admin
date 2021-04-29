@@ -1,44 +1,60 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import TableCommon from "../../components/table-helpers/table-common";
 import { useHistory } from "react-router-dom";
 import { findAllSellerProduct } from "../../store/actions/seller-product.action";
+import { getListData } from "../../store/selectors/data.selector";
+import Button from "../../components/elements/button";
+
 const columns = [
   {
-    Header: "Id",
-    accessor: "id"
-  },
-  {
     Header: "Name",
-    accessor: "name"
+    accessor: "name",
+    headerClassName: "text-color-white"
   }
 ];
 
 function Product(props) {
   const { products, fetchSellerProduct, request } = props;
-  let history = useHistory();
+  const history = useHistory();
+
   const rowClickHandler = (row) => {
-    const { values } = row;
-    //const [original] = row;
-    history.push("/product-details/" + values.id + "/edit");
+    const { original } = row;
+    history.push("/product/" + original.id + "/details");
   };
+
+  const createNew = () => {
+    history.push("/product/create");
+  };
+
   return (
-    <div className="ui container">
-      <TableCommon
-        rowClickHandler={rowClickHandler}
-        columns={columns}
-        data={products}
-        fetchData={fetchSellerProduct}
-        isLoading={request.isLoading}
-        tableClassName={"ui simple table"}
-      />
+    <div className="ui segments">
+      <div className="ui segment">
+        <Button
+          label={"Add new product"}
+          onClick={createNew}
+          isPositive={true}
+          className={"tiny"}
+        />
+      </div>
+      <div className="ui segment">
+        <TableCommon
+          rowClickHandler={rowClickHandler}
+          columns={columns}
+          data={products}
+          fetchData={fetchSellerProduct}
+          isLoading={request.isLoading}
+          tableClassName={"ui simple table"}
+        />
+      </div>
     </div>
   );
 }
 
 const mapStateToProps = () => {
+  const getData = getListData();
   return (state) => ({
-    products: Object.values(state.sellerProduct.data.byId),
+    products: getData(state, "sellerProduct"),
     request: state.sellerProduct.request
   });
 };

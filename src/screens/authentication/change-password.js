@@ -19,14 +19,12 @@ function ChangePassword() {
     replace("/register-store");
   };
   return (
-    <div className="ui container">
-      <Form
-        fields={fields}
-        postRequest={save}
-        initialValues={initialValues}
-        submitButtonLabel={"Change"}
-      />
-    </div>
+    <Form
+      fields={fields}
+      postRequest={save}
+      initialValues={initialValues}
+      submitButtonLabel={"Change"}
+    />
   );
 }
 

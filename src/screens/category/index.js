@@ -5,27 +5,23 @@ import { findAllCategory } from "../../store/actions/category.action";
 
 const columns = [
   {
-    Header: "Id",
-    accessor: "id"
-  },
-  {
     Header: "Name",
-    accessor: "name"
+    accessor: "name",
+    headerClassName: "text-color-white"
   }
 ];
+
 function Category(props) {
   const { categories, fetchCategory, request } = props;
 
   return (
-    <div className="ui container">
-      <TableCommon
-        columns={columns}
-        data={categories}
-        fetchData={fetchCategory}
-        isLoading={request.isLoading}
-        tableClassName={"ui simple table"}
-      />
-    </div>
+    <TableCommon
+      columns={columns}
+      data={categories}
+      fetchData={fetchCategory}
+      isLoading={request.isLoading}
+      tableClassName={"ui simple table"}
+    />
   );
 }
 

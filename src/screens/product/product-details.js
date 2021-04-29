@@ -7,7 +7,7 @@ import TableCommon from "../../components/table-helpers/table-common";
 
 const columns = [
   {
-    Header: "Item",
+    Header: "Brand Product",
     accessor: "brand_name",
     headerClassName: "text-color-white"
   }

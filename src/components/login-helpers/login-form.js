@@ -8,21 +8,9 @@ import { authenticateInitiate } from "../../store/actions/session.action";
 
 const LoginForm = (props) => {
   debugger;
-  const { triggerLogin, history, session } = props;
-  const [state, setState] = useState({ email: "", password: "" });
+  const { triggerLogin, session } = props;
 
   const { replace } = useHistory();
-
-  const updateState = (event) => {
-    const { target } = event;
-    const { name, value } = target;
-    setState((preValue) => {
-      return {
-        ...preValue,
-        [name]: value
-      };
-    });
-  };
 
   const initialValues = useMemo(
     () => ({
@@ -33,20 +21,23 @@ const LoginForm = (props) => {
   );
 
   const save = (data) => {
+    debugger;
     console.log(data);
-    const { email, password } = state;
+    const { email, password } = data;
     if (email !== "" && password !== "") {
-      triggerLogin(state);
+      debugger;
+      triggerLogin(data);
     } else {
+      debugger;
       alert("Please enter both email and password");
     }
-    // replace("/change-password");
   };
   useEffect(() => {
+    debugger;
     if (session.isAuthenticated) {
-      history.push("/dashboard");
+      replace("/dashboard");
     }
-  }, [session.isAuthenticated, history]);
+  }, [session.isAuthenticated]);
 
   return (
     <div className="ui segment">
@@ -55,7 +46,6 @@ const LoginForm = (props) => {
         submitButtonLabel={"Submit"}
         initialValues={initialValues}
         postRequest={save}
-        onChange={updateState}
       />
     </div>
   );

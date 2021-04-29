@@ -97,6 +97,7 @@ export const privateRoutes = [
 ];
 
 const PrivateRoute = ({ component: Component, isAuthenticated, currentUserRole, ...rest }) => {
+  debugger;
   return (
     <Route
       {...rest}
@@ -104,7 +105,7 @@ const PrivateRoute = ({ component: Component, isAuthenticated, currentUserRole, 
         isAuthenticated === false ? (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: "/login.form",
               state: { from: props.location }
             }}
           />

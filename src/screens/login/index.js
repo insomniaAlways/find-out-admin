@@ -1,7 +1,7 @@
 import React from "react";
 import LoginForm from "../../components/login-helpers/login-form";
 
-function Register() {
+function Login() {
   return (
     <div className="ui container">
       <LoginForm />;
@@ -9,4 +9,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Login;

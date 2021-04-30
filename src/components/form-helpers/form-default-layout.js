@@ -5,7 +5,6 @@ import FormField from "./form-field";
 import clsx from "clsx";
 
 const FormDefaultLayout = memo((props) => {
-  debugger;
   const { field, isSubmitting } = props;
   const {
     isRequired,

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { authenticateInitiate } from "../../store/actions/session.action";
 
 const Login = (props) => {
-  debugger;
   const { triggerLogin, history, session } = props;
   const [state, setState] = useState({ email: "", password: "" });
 
@@ -135,7 +134,6 @@ const Login = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  debugger;
   return {
     session: state.session
   };

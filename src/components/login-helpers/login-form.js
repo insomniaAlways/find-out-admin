@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import { authenticateInitiate } from "../../store/actions/session.action";
 
 const LoginForm = (props) => {
-  debugger;
   const { triggerLogin, session } = props;
 
   const { replace } = useHistory();
@@ -21,19 +20,15 @@ const LoginForm = (props) => {
   );
 
   const save = (data) => {
-    debugger;
     console.log(data);
     const { email, password } = data;
     if (email !== "" && password !== "") {
-      debugger;
       triggerLogin(data);
     } else {
-      debugger;
       alert("Please enter both email and password");
     }
   };
   useEffect(() => {
-    debugger;
     if (session.isAuthenticated) {
       replace("/dashboard");
     }
@@ -51,7 +46,6 @@ const LoginForm = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  debugger;
   return {
     session: state.session
   };

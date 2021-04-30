@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import Input from "./input";
 
 function FormField(props) {
-  debugger;
-
   const { field, isSubmitting } = props;
   const { Component: FieldComponent, ...reset } = field;
 

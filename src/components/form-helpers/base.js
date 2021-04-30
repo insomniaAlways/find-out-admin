@@ -8,8 +8,6 @@ import omitBy from "lodash/omitBy";
 import isNil from "lodash/isNil";
 
 const FormBase = (props) => {
-  debugger;
-
   const {
     fields,
     initialValues,
@@ -23,7 +21,6 @@ const FormBase = (props) => {
   } = props;
 
   const FormLayout = ({ field, ...rest }) => {
-    debugger;
     useEffect(() => {
       if (rest.shouldDisabled) {
         rest.setSubmitting(true);

@@ -3,7 +3,6 @@ export const getString = (value = "") => {
 };
 
 export const requiredCheck = (values, valuePath) => {
-  debugger;
   if (!getString(values[String(valuePath)])) {
     return "Required";
   }

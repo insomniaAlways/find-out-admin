@@ -97,7 +97,6 @@ export const privateRoutes = [
 ];
 
 const PrivateRoute = ({ component: Component, isAuthenticated, currentUserRole, ...rest }) => {
-  debugger;
   return (
     <Route
       {...rest}

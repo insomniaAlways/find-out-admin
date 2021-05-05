@@ -11,7 +11,7 @@ const getString = (value = "") => {
 };
 
 const Input = memo(({ field, ...props }) => {
-  const { isSubmitting } = props;
+  const { isSubmitting, isDisable } = props;
   const {
     type,
     valuePath,
@@ -47,11 +47,12 @@ const Input = memo(({ field, ...props }) => {
       formikField.onBlur(e);
     }
   };
+
   return (
     <Form.Field
       width={width}
       className={clsx("text-color-black", inputClassNames, { error: hasError })}
-      disabled={isSubmitting}>
+      disabled={isSubmitting || isDisable}>
       <div className={clsx("ui input", { icon: hasIcon })}>
         <input
           className="text-color-black"

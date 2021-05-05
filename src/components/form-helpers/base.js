@@ -52,8 +52,9 @@ const FormBase = (props) => {
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit} validate={validate}>
-      {({ handleSubmit, status, isSubmitting, setSubmitting }) => (
+      {({ handleSubmit, status, isSubmitting, setSubmitting, values }) => (
         <Form onSubmit={handleSubmit} className={clsx("form-container", formClassNames)}>
+          {console.log(values)}
           {fields.map((field) => (
             <FormLayout
               key={field.valuePath}
@@ -66,16 +67,14 @@ const FormBase = (props) => {
           <div
             className={clsx(
               submitButtonFieldClassNames || "ui segment text-center border-radius-none"
-            )}
-          >
+            )}>
             {status && (
               <p className="text-color-negative">Error generating event data. Please try again.</p>
             )}
             <button
               type="submit"
               className={clsx(submitButtonClassNames || "ui positive button padding-md")}
-              disabled={isSubmitting}
-            >
+              disabled={isSubmitting}>
               {submitButtonLabel}
             </button>
           </div>

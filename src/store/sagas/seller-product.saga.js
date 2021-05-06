@@ -27,7 +27,7 @@ async function makeRequest(type, data) {
 
 async function createRequest(payload) {
   try {
-    const response = await createRecord("product", payload);
+    const response = await createRecord("add-product", payload);
     if (response.data) {
       return response.data;
     } else {
@@ -111,8 +111,14 @@ function* workerCreateRecord({ payload = {}, actions = {} }) {
       schema: sellerProductSchema
     });
     yield put(storeSellerProduct({ payload: normalizedData, meta: {} }));
+    if (actions && actions.onSuccess) {
+      actions.onSuccess();
+    }
   } catch (error) {
     yield call(catchReduxError, types["SELLER-PRODUCT_FAILED"], error);
+    if (actions && actions.onFailed) {
+      actions.onFailed();
+    }
   }
 }
 

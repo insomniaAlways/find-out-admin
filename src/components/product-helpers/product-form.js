@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React, { useReducer, useState } from "react";
 import AsyncDropdown from "../elements/async-dropdown";
 import Dropdown from "../elements/dropdown";
@@ -5,6 +6,15 @@ import Input from "../elements/input";
 
 function reducer(state, action) {
   switch (action.type) {
+    case "reset":
+      return {
+        product: null,
+        product_brand: null,
+        product_brand_unit: null,
+        mrp_price: "",
+        price: "",
+        quantity: ""
+      };
     case "product":
       return {
         ...state,
@@ -12,7 +22,7 @@ function reducer(state, action) {
         product_brand: null,
         product_brand_unit: null,
         mrp_price: "",
-        seller_price: "",
+        price: "",
         quantity: ""
       };
     case "product_brand":
@@ -21,7 +31,7 @@ function reducer(state, action) {
         [action.type]: action.value,
         product_brand_unit: null,
         mrp_price: "",
-        seller_price: "",
+        price: "",
         quantity: ""
       };
     case "product_brand_unit":
@@ -29,7 +39,7 @@ function reducer(state, action) {
         ...state,
         [action.type]: action.value,
         mrp_price: "",
-        seller_price: "",
+        price: "",
         quantity: ""
       };
     default:
@@ -37,18 +47,20 @@ function reducer(state, action) {
   }
 }
 function ProductForm(props) {
+  const { onSave } = props;
   const [state, dispatch] = useReducer(reducer, props.initialValue);
+  const [isSubmitting, toggleSubmit] = useState(false);
 
   const [errors, updateError] = useState({
     product: null,
     product_brand: null,
     product_brand_unit: null,
     mrp_price: null,
-    seller_price: null,
+    price: null,
     quantity: null
   });
 
-  const { product, product_brand, product_brand_unit, mrp_price, seller_price, quantity } = state;
+  const { product, product_brand, product_brand_unit, mrp_price, price, quantity } = state;
 
   const handleInputChange = (name, value) => {
     dispatch({ type: name, value });
@@ -64,7 +76,7 @@ function ProductForm(props) {
       product_brand: null,
       product_brand_unit: null,
       mrp_price: null,
-      seller_price: null,
+      price: null,
       quantity: null
     };
     if (!product) {
@@ -79,8 +91,8 @@ function ProductForm(props) {
     if (!product_brand_unit) {
       e.product_brand_unit = "Required";
     }
-    if (!seller_price) {
-      e.seller_price = "Required";
+    if (!price) {
+      e.price = "Required";
     }
     if (!quantity) {
       e.quantity = "Required";
@@ -92,10 +104,30 @@ function ProductForm(props) {
     return e;
   };
 
+  const onSuccess = () => {
+    toggleSubmit(false);
+    dispatch({ type: "reset" });
+  };
+  const onFailed = () => {
+    toggleSubmit(false);
+  };
+
   const save = () => {
-    const hasErrors = validated();
-    if (!Object.keys(hasErrors).length) {
-      console.log("validate", state);
+    const hasError = validated();
+    if (!Object.values(hasError).filter((d) => d).length) {
+      toggleSubmit(true);
+      onSave({
+        payload: {
+          product_brand_unit_id: state.product_brand_unit.id,
+          mrp_price: state.mrp_price,
+          price: state.price,
+          quantity: state.quantity
+        },
+        actions: {
+          onSuccess,
+          onFailed
+        }
+      });
     }
   };
 
@@ -106,6 +138,7 @@ function ProductForm(props) {
         <AsyncDropdown
           remotePath={"product"}
           optionLabel={"name"}
+          isDisabled={isSubmitting}
           axiosConfig={{
             baseURL: "https://findoutv1.herokuapp.com/api/v1"
           }}
@@ -120,7 +153,7 @@ function ProductForm(props) {
         <label>Select Brand</label>
         <Dropdown
           optionLabel={"brand_name"}
-          isDisabled={!(product && product.id)}
+          isDisabled={!(product && product.id) || isSubmitting}
           listSource={product ? product.product_brands : []}
           isSearchEnabled={true}
           setSelectedOption={(value) => handleDropdownChange("product_brand", value)}
@@ -135,11 +168,11 @@ function ProductForm(props) {
         <label>Select Packet Unit</label>
         <AsyncDropdown
           elementKey={product_brand && product_brand.id}
-          isDisabled={!(product && product.id && product_brand && product_brand.id)}
+          isDisabled={!(product && product.id && product_brand && product_brand.id) || isSubmitting}
           remotePath={"product-brand-unit"}
           optionLabel={"unit_quantity"}
           axiosConfig={{
-            baseURL: "https://findoutv1.herokuapp.com/api/v1"
+            baseURL: "https://findoutv1.herokuapp.com/public/v1/"
           }}
           isSearchEnabled={true}
           setSelectedOption={(value) => handleDropdownChange("product_brand_unit", value)}
@@ -169,7 +202,7 @@ function ProductForm(props) {
                 product_brand.id &&
                 product_brand_unit &&
                 product_brand_unit.id
-              )
+              ) || isSubmitting
             }
             placeholder={"Enter here"}
           />
@@ -178,12 +211,12 @@ function ProductForm(props) {
         <div className="field">
           <label>Selling Price</label>
           <Input
-            name={"seller_price"}
+            name={"price"}
             className="text-color-black"
             type={"number"}
             setValue={handleInputChange}
             min="1"
-            value={seller_price}
+            value={price}
             isDisabled={
               !(
                 product &&
@@ -192,13 +225,11 @@ function ProductForm(props) {
                 product_brand.id &&
                 product_brand_unit &&
                 product_brand_unit.id
-              )
+              ) || isSubmitting
             }
             placeholder={"Enter here"}
           />
-          {errors.seller_price && (
-            <span className="text-color-negative">{errors.seller_price}</span>
-          )}
+          {errors.price && <span className="text-color-negative">{errors.price}</span>}
         </div>
         <div className="field">
           <label>Currently Available Quantity</label>
@@ -217,14 +248,14 @@ function ProductForm(props) {
                 product_brand.id &&
                 product_brand_unit &&
                 product_brand_unit.id
-              )
+              ) || isSubmitting
             }
             placeholder={"Enter here"}
           />
           {errors.quantity && <span className="text-color-negative">{errors.quantity}</span>}
         </div>
       </div>
-      <div className="field text-center">
+      <div className={clsx("field text-center", { disabled: isSubmitting })}>
         <div className="ui positive button" onClick={save}>
           Add Product
         </div>

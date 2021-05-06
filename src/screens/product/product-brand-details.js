@@ -6,6 +6,7 @@ import TableCommon from "../../components/table-helpers/table-common";
 import { queryProductBrandUnit } from "../../store/actions/product-brand-unit.action";
 import { findByIdProductBrand } from "../../store/actions/product-brand.action";
 import { getListData } from "../../store/selectors/data.selector";
+import ProductBrandUpdate from "./product-brand-update";
 
 const columns = [
   {
@@ -26,7 +27,8 @@ const columns = [
   {
     Header: "Available Quantity",
     accessor: "quantity",
-    headerClassName: "text-color-white"
+    headerClassName: "text-color-white",
+    Cell: ProductBrandUpdate
   }
 ];
 
@@ -39,8 +41,6 @@ const ProductBrandDetails = (props) => {
     fetchProductBrandUnit
   } = props;
   const { product_brand_id } = useParams();
-
-  const rowClickHandler = () => {};
 
   useEffect(() => {
     if (product_brand_id) {
@@ -56,7 +56,6 @@ const ProductBrandDetails = (props) => {
         </div>
         <div className="ui segment">
           <TableCommon
-            rowClickHandler={rowClickHandler}
             columns={columns}
             data={productBrandUnit}
             fetchData={fetchProductBrandUnit}

@@ -7,7 +7,18 @@ const getString = (value = "") => {
 };
 
 const Input = ({ field, ...props }) => {
-  const { isDisabled, type, name, placeholder, value, shouldTrim, setValue, min } = props;
+  const {
+    isDisabled,
+    type,
+    name,
+    placeholder,
+    value,
+    shouldTrim,
+    setValue,
+    min,
+    className,
+    inputClassName
+  } = props;
 
   const handleChange = (e) => {
     if (shouldTrim) {
@@ -18,10 +29,10 @@ const Input = ({ field, ...props }) => {
   };
 
   return (
-    <div className={clsx("ui input", { disabled: isDisabled })}>
+    <div className={clsx("ui input", { disabled: isDisabled }, className)}>
       <input
         name={name}
-        className="text-color-black"
+        className={clsx("text-color-black", inputClassName)}
         type={type || "text"}
         onChange={handleChange}
         value={value}
@@ -42,5 +53,7 @@ Input.propTypes = {
   value: PropTypes.any,
   shouldTrim: PropTypes.bool,
   setValue: PropTypes.func,
-  min: PropTypes.string
+  min: PropTypes.string,
+  className: PropTypes.string,
+  inputClassName: PropTypes.string
 };

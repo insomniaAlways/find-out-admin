@@ -16,14 +16,24 @@ const FormDropdown = memo((props) => {
   const value = useMemo(() => formikField.value, [formikField.value]);
 
   const onChange = (data, e) => {
-    e.target.name = valuePath;
-    e.target.value = data;
-    formikField.onChange(e);
+    const ev = {
+      ...e,
+      target: {
+        name: valuePath,
+        value: data
+      }
+    };
+    formikField.onChange(ev);
   };
 
   const onHandleBlur = (e) => {
-    e.target.name = valuePath;
-    formikField.onBlur(e);
+    const ev = {
+      ...e,
+      target: {
+        name: valuePath
+      }
+    };
+    formikField.onBlur(ev);
   };
   return (
     <Form.Field

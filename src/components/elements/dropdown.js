@@ -13,7 +13,8 @@ function DropdownHelper(props) {
     // createOption,
     placeholder,
     handleBlur,
-    isDisabled
+    isDisabled,
+    optionLabel
   } = props;
 
   // const handleAddition = (e, data) => {
@@ -33,15 +34,16 @@ function DropdownHelper(props) {
 
   return (
     <Select
+      isDisabled={isDisabled}
       isSearchable={isSearchEnabled}
       isClearable={true}
-      isOptionDisabled={isDisabled}
       options={listSource}
       defaultValue={selectedOption}
       value={selectedOption}
       placeholder={placeholder}
       onBlur={onBlur}
       onChange={handleChange}
+      getOptionLabel={(option) => option[optionLabel]}
     />
   );
 }

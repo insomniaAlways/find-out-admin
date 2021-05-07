@@ -1,7 +1,8 @@
 import clsx from "clsx";
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import Input from "../../components/elements/input";
+import { toastSuccess } from "../../components/toast-helpers";
 import { updateSellerProduct } from "../../store/actions/seller-product.action";
 
 function ProductBrandUpdate(props) {
@@ -17,6 +18,7 @@ function ProductBrandUpdate(props) {
   const onSuccess = () => {
     toggleSaving(false);
     toggleView(() => false);
+    toastSuccess({ title: "Successfully Updated" }, true);
   };
   const onFailed = () => {
     toggleSaving(false);
@@ -45,7 +47,7 @@ function ProductBrandUpdate(props) {
               name={id}
               type={"number"}
               value={data}
-              min={0}
+              min={"0"}
               isDisabled={isSaving}
               setValue={handleInputChange}
               className="width-half"

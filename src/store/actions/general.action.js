@@ -1,10 +1,11 @@
 // import * as Sentry from '@sentry/browser';
 import { normalize } from "normalizr";
-import { put } from "redux-saga/effects";
+import { put, call } from "redux-saga/effects";
 // import * as Sentry from '@sentry/react';
 import PropTypes from "prop-types";
 import omitBy from "lodash/omitBy";
 import isNil from "lodash/isNil";
+import { toastError } from "../../components/toast-helpers";
 
 export function* catchReduxError(type, error, skipToast = false) {
   if (!type) {
@@ -19,20 +20,20 @@ export function* catchReduxError(type, error, skipToast = false) {
         type: type,
         error: error.response.data
       });
-      // yield call(toastError, error);
+      yield call(toastError, error);
     } else if (error.response.status >= 500) {
       yield put({
         type: type,
         error: { message: "Something went worng" }
       });
-      // yield call(toastError, { message: "Something went worng" });
+      yield call(toastError, { message: "Something went worng" });
     } else {
       yield put({
         type: type,
         error: error.response.data
       });
       if (!skipToast) {
-        // yield call(toastError, error);
+        yield call(toastError, error);
       }
     }
   } else {
@@ -40,7 +41,7 @@ export function* catchReduxError(type, error, skipToast = false) {
       type: type,
       error: error.message
     });
-    // yield call(toastError, error);
+    yield call(toastError, error);
   }
 }
 

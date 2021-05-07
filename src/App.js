@@ -3,6 +3,11 @@ import store from "./store";
 import { Provider } from "react-redux";
 import Navigations from "./navigations";
 import firebase from "firebase/app";
+import { toast } from "react-toastify";
+
+toast.configure({
+  position: "top-right"
+});
 
 const firebaseConfig = {
   apiKey: "AIzaSyCcmNhTBGgiA-zklWpGGxe1NRRgYOkcwnA",
@@ -14,8 +19,9 @@ const firebaseConfig = {
   appId: "1:306597878774:web:36d40b793f755a414a85d7",
   measurementId: "G-KLKTYHRX97"
 };
-
-firebase.initializeApp(firebaseConfig);
+if (process.env.NODE_ENV !== "development") {
+  firebase.initializeApp(firebaseConfig);
+}
 
 function App() {
   return (

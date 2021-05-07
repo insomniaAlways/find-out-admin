@@ -16,27 +16,34 @@ function ProductBrandUpdate(props) {
     <div className="width-full">
       <>
         {isEdit ? (
-          <Input
-            name={id}
-            type={"number"}
-            value={data}
-            setValue={handleInputChange}
-            className="width-half"
-            inputClassName="padding-vs-top padding-vs-bottom"
-          />
+          <div className="width-full">
+            <Input
+              name={id}
+              type={"number"}
+              value={data}
+              setValue={handleInputChange}
+              className="width-half"
+              inputClassName="padding-vs-top padding-vs-bottom"
+            />
+            <span
+              className="float-right cursor-pointer padding-vs-top"
+              onClick={() => toggleView((prev) => !prev)}>
+              <i class="save outline blue icon"></i>
+            </span>
+          </div>
         ) : (
-          <span className="padding-vs-top padding-vs-bottom">{value}</span>
+          <div className="width-full">
+            <div className="padding-vs-top padding-vs-bottom">
+              {value}
+              <span
+                className="float-right cursor-pointer"
+                onClick={() => toggleView((prev) => !prev)}>
+                <i class="edit outline red icon"></i>
+              </span>
+            </div>
+          </div>
         )}
       </>
-      {isEdit ? (
-        <span className="float-right cursor-pointer" onClick={() => toggleView((prev) => !prev)}>
-          <i class="save outline icon"></i>
-        </span>
-      ) : (
-        <span className="float-right cursor-pointer" onClick={() => toggleView((prev) => !prev)}>
-          <i class="edit outline icon"></i>
-        </span>
-      )}
     </div>
   );
 }

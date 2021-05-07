@@ -4,6 +4,7 @@ import { sellerProductActionTypes as types } from "../action-types";
 import { catchReduxError, normalizeData } from "../actions/general.action";
 import { sellerProductArraySchema, sellerProductSchema } from "../schemas";
 import { deleteSellerProductSucceed, storeSellerProduct } from "../actions/seller-product.action";
+import { storeProductBrandUnit } from "../actions/product-brand-unit.action";
 
 async function makeRequest(type, data) {
   try {
@@ -40,7 +41,7 @@ async function createRequest(payload) {
 
 async function updateRequest(id, payload) {
   try {
-    const response = await updateRecord("product", id, payload);
+    const response = await updateRecord("product-brand-unit", id, payload);
     if (response.data) {
       return response.data;
     } else {
@@ -122,16 +123,22 @@ function* workerCreateRecord({ payload = {}, actions = {} }) {
   }
 }
 
-function* workerUpdatedRecord({ seller_product_id, payload, actions = {} }) {
+function* workerUpdatedRecord({ product_brand_unit_id, payload, actions = {} }) {
   try {
-    const response = yield call(updateRequest, seller_product_id, payload);
+    const response = yield call(updateRequest, product_brand_unit_id, payload);
     const normalizedData = yield call(normalizeData, {
       data: response,
       schema: sellerProductSchema
     });
-    yield put(storeSellerProduct({ payload: normalizedData, meta: {} }));
+    yield put(storeProductBrandUnit({ payload: normalizedData, meta: {} }));
+    if (actions && actions.onSuccess) {
+      actions.onSuccess();
+    }
   } catch (error) {
     yield call(catchReduxError, types["SELLER-PRODUCT_FAILED"], error);
+    if (actions && actions.onFailed) {
+      actions.onFailed();
+    }
   }
 }
 

@@ -2,8 +2,8 @@ import { all, takeLatest, takeEvery, fork, call, put } from "redux-saga/effects"
 import { productActionTypes as types } from "../action-types";
 import {
   findAllProductSucceed,
-  queryProductSucceed,
-  findByIdProductSucceed
+  queryProductSucceed
+  // findByIdProductSucceed
 } from "../actions/product.action";
 import { catchReduxError, normalizeData } from "../actions/general.action";
 import { productArraySchema } from "../schemas";

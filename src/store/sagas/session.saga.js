@@ -1,16 +1,5 @@
-import {
-  all,
-  takeLatest,
-  takeEvery,
-  take,
-  cancel,
-  fork,
-  call,
-  put,
-  cancelled
-} from "redux-saga/effects";
+import { all, takeLatest, fork, call, put } from "redux-saga/effects";
 import { sessionActionTypes as types } from "../action-types";
-import { unAuthenticate } from "../actions/session.action";
 import { createRecord } from "../server";
 
 function* workerAuthenticate({ email, password }) {

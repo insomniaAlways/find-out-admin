@@ -50,10 +50,12 @@ const Login = (props) => {
               <div className="ui equal width grid margin-no">
                 <div className="row">
                   <div className="column center aligned ">
-                    <a>Login</a>
+                    <span className="cursor-pointer text-color-positive">Login</span>
                   </div>
                   <div className="column center aligned ">
-                    <a onClick={handleRegister}>Register</a>
+                    <span className="cursor-pointer text-color-positive" onClick={handleRegister}>
+                      Register
+                    </span>
                   </div>
                 </div>
 

@@ -2,7 +2,7 @@ import { sessionActionTypes } from "../action-types";
 
 export function authenticate(payload) {
   const { email, password } = payload;
-  if (email != "" && password != "") {
+  if (email !== "" && password !== "") {
     return {
       type: sessionActionTypes.AUTHENTICATION_SUCCESS
     };

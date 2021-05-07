@@ -17,17 +17,19 @@ const columns = [
   {
     Header: "MRP",
     accessor: "mrp_price",
-    headerClassName: "text-color-white"
+    headerClassName: "text-color-white text-center",
+    Cell: ProductBrandUpdate
   },
   {
     Header: "Price",
     accessor: "price",
-    headerClassName: "text-color-white"
+    headerClassName: "text-color-white text-center",
+    Cell: ProductBrandUpdate
   },
   {
     Header: "Available Quantity",
     accessor: "quantity",
-    headerClassName: "text-color-white",
+    headerClassName: "text-color-white text-center",
     Cell: ProductBrandUpdate
   }
 ];

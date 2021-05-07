@@ -54,3 +54,12 @@ export function deleteSellerProductSucceed({ seller_product_id, meta = {} }) {
     meta
   };
 }
+
+export function updateSellerProduct({ product_brand_unit_id, payload, actions = {} }) {
+  return {
+    type: types["SELLER-PRODUCT_UPDATE_REQUEST"],
+    product_brand_unit_id,
+    payload,
+    actions
+  };
+}

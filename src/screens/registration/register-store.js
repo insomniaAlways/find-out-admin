@@ -7,7 +7,7 @@ import { findAllCategory } from "../../store/actions/category.action";
 import { requiredCheck } from "../../utils/validations";
 
 function RegisterStore(props) {
-  const { fetchCategory, categories } = props;
+  const { fetchCategory /*categories*/ } = props;
   const initialValues = useMemo(
     () => ({
       current_password: "",
@@ -22,6 +22,7 @@ function RegisterStore(props) {
 
   useEffect(() => {
     fetchCategory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

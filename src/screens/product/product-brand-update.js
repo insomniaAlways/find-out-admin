@@ -1,15 +1,39 @@
+import clsx from "clsx";
 import React, { Fragment, useState } from "react";
+import { connect } from "react-redux";
 import Input from "../../components/elements/input";
+import { updateSellerProduct } from "../../store/actions/seller-product.action";
 
 function ProductBrandUpdate(props) {
-  const { value, column } = props;
+  const { value, column, update, row } = props;
   const { id } = column;
-
+  const {
+    original: { id: product_brand_unit_id }
+  } = row;
   const [data, updateData] = useState(value);
   const [isEdit, toggleView] = useState(false);
+  const [isSaving, toggleSaving] = useState(false);
+
+  const onSuccess = () => {
+    toggleSaving(false);
+    toggleView(() => false);
+  };
+  const onFailed = () => {
+    toggleSaving(false);
+  };
+
+  const save = () => {
+    toggleSaving(true);
+    update(product_brand_unit_id, { [id]: data }, { onSuccess, onFailed });
+  };
 
   const handleInputChange = (name, value) => {
     updateData(() => value);
+  };
+
+  const reset = () => {
+    toggleView(false);
+    updateData(value);
   };
 
   return (
@@ -21,15 +45,28 @@ function ProductBrandUpdate(props) {
               name={id}
               type={"number"}
               value={data}
+              min={0}
+              isDisabled={isSaving}
               setValue={handleInputChange}
               className="width-half"
               inputClassName="padding-vs-top padding-vs-bottom"
             />
-            <span
-              className="float-right cursor-pointer padding-vs-top"
-              onClick={() => toggleView((prev) => !prev)}>
-              <i class="save outline blue icon"></i>
-            </span>
+            {isSaving ? (
+              <span className="float-right cursor-pointer padding-vs-top">
+                <span className="ui mini active inline loader"></span>
+              </span>
+            ) : (
+              <>
+                <span className="float-right cursor-pointer padding-vs-top" onClick={reset}>
+                  <i className="times circle outline red icon"></i>
+                </span>
+                <span
+                  className="float-right cursor-pointer padding-vs-top"
+                  onClick={() => !isSaving && save()}>
+                  <i className={clsx("save outline icon", { blue: !isSaving })}></i>
+                </span>
+              </>
+            )}
           </div>
         ) : (
           <div className="width-full">
@@ -38,7 +75,7 @@ function ProductBrandUpdate(props) {
               <span
                 className="float-right cursor-pointer"
                 onClick={() => toggleView((prev) => !prev)}>
-                <i class="edit outline red icon"></i>
+                <i className="edit outline red icon"></i>
               </span>
             </div>
           </div>
@@ -48,4 +85,9 @@ function ProductBrandUpdate(props) {
   );
 }
 
-export default ProductBrandUpdate;
+const mapDispatchToProps = (dispatch) => ({
+  update: (product_brand_unit_id, payload, actions = {}) =>
+    dispatch(updateSellerProduct({ product_brand_unit_id, payload, actions }))
+});
+
+export default connect(null, mapDispatchToProps)(ProductBrandUpdate);

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import React, { Suspense } from "react";
 import Navbar from "../components/Navbar/navbar";
 import { Switch, Route, Redirect } from "react-router-dom";
-import lazyWithPreload from "./lazy-with-preload";
+// import lazyWithPreload from "./lazy-with-preload";
 import ErrorBoundary from "./error-boundary";
 import LoadingContainer from "./loading-container";
 import Category from "../screens/category";

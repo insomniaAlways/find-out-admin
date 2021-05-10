@@ -2,7 +2,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import clsx from "clsx";
 
-function ToastHelper({ title, detail, isIcon, icon }) {
+function ToastHelper({ title = "", detail = "", isIcon, icon }) {
   return (
     <div className="ui grid margin-no">
       {isIcon && (
@@ -25,7 +25,7 @@ export function toastError(error, isIcon) {
     });
   } else if (error && error.response && error.response.data) {
     let e = {
-      title: error.response.data,
+      title: error.response.data || "",
       detail: error.response.data.message
     };
     return toast.error(<ToastHelper {...e} />);

@@ -1,5 +1,5 @@
 import React from "react";
-import AsyncSelect from "react-select/async";
+import AsyncCreatableSelect from "react-select/async-creatable";
 import { axiosInstance } from "../../store/server";
 import PropTypes from "prop-types";
 
@@ -15,7 +15,9 @@ function AsyncDropdown(props) {
     placeholder,
     handleBlur,
     isDisabled = false,
-    query = {}
+    query = {},
+    onCreateOption,
+    formatCreateLabel
   } = props;
 
   const onBlur = (e) => {
@@ -47,7 +49,7 @@ function AsyncDropdown(props) {
     return searchText;
   };
   return (
-    <AsyncSelect
+    <AsyncCreatableSelect
       key={elementKey || remotePath}
       isDisabled={isDisabled}
       getOptionLabel={(option) => option[optionLabel]}
@@ -62,7 +64,10 @@ function AsyncDropdown(props) {
       getOptionValue={(option) => option[optionLabel]}
       value={selectedOption}
       placeholder={placeholder}
+      allowCreateWhileLoading={false}
+      onCreateOption={onCreateOption}
       onBlur={onBlur}
+      formatCreateLabel={formatCreateLabel}
     />
   );
 }

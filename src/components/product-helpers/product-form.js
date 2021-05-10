@@ -104,6 +104,17 @@ function ProductForm(props) {
     return e;
   };
 
+  const handleCreate = (inputValue) => {
+    debugger;
+  };
+
+  const formatCreateLabel = (inputValue, key) => {
+    console.log(inputValue);
+    return {
+      [key]: inputValue
+    };
+  };
+
   const onSuccess = () => {
     toggleSubmit(false);
     dispatch({ type: "reset" });
@@ -146,6 +157,8 @@ function ProductForm(props) {
           setSelectedOption={(value) => handleDropdownChange("product", value)}
           selectedOption={product}
           placeholder={"Select product"}
+          onCreateOption={handleCreate}
+          formatCreateLabel={(value) => formatCreateLabel(value, "name")}
         />
         {errors.product && <span className="text-color-negative">{errors.product}</span>}
       </div>
@@ -159,6 +172,8 @@ function ProductForm(props) {
           setSelectedOption={(value) => handleDropdownChange("product_brand", value)}
           selectedOption={product_brand}
           placeholder={"Select brand"}
+          onCreateOption={handleCreate}
+          formatCreateLabel={(value) => formatCreateLabel(value, "brand_name")}
         />
         {errors.product_brand && (
           <span className="text-color-negative">{errors.product_brand}</span>
@@ -170,7 +185,7 @@ function ProductForm(props) {
           elementKey={product_brand && product_brand.id}
           isDisabled={!(product && product.id && product_brand && product_brand.id) || isSubmitting}
           remotePath={"product-brand-unit"}
-          optionLabel={"unit_quantity"}
+          optionLabel={"unit_value"}
           axiosConfig={{
             baseURL: "https://findoutv1.herokuapp.com/public/v1/"
           }}
@@ -179,6 +194,8 @@ function ProductForm(props) {
           selectedOption={product_brand_unit}
           placeholder={"Select Packet Unit"}
           query={{ product_brand_id: product_brand && product_brand.id }}
+          onCreateOption={handleCreate}
+          formatCreateLabel={(value) => formatCreateLabel(value, "unit_value")}
         />
         {errors.product_brand_unit && (
           <span className="text-color-negative">{errors.product_brand_unit}</span>

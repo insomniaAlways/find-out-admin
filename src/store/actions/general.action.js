@@ -20,7 +20,7 @@ export function* catchReduxError(type, error, skipToast = false) {
         type: type,
         error: error.response.data
       });
-      yield call(toastError, error);
+      yield put({ type: "UNAUTHENTICATE_SUCCESS" });
     } else if (error.response.status >= 500) {
       yield put({
         type: type,

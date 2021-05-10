@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-// import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 
 function DropdownHelper(props) {
@@ -15,9 +14,7 @@ function DropdownHelper(props) {
     placeholder,
     handleBlur,
     isDisabled,
-    optionLabel,
-    onCreateOption,
-    formatCreateLabel
+    optionLabel
   } = props;
 
   // const handleAddition = (e, data) => {
@@ -46,10 +43,7 @@ function DropdownHelper(props) {
       placeholder={placeholder}
       onBlur={onBlur}
       onChange={handleChange}
-      allowCreateWhileLoading={false}
       getOptionLabel={(option) => option[optionLabel]}
-      onCreateOption={onCreateOption}
-      formatCreateLabel={formatCreateLabel}
     />
   );
 }

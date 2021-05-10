@@ -27,7 +27,7 @@ const columns = [
     Cell: ProductBrandUpdate
   },
   {
-    Header: "Available Quantity",
+    Header: "Available Quantity (no. of packet)",
     accessor: "quantity",
     headerClassName: "text-color-white text-center",
     Cell: ProductBrandUpdate

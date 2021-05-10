@@ -109,7 +109,7 @@ function ProductForm(props) {
   };
 
   const formatCreateLabel = (inputValue, key) => {
-    console.log(inputValue);
+    // console.log(inputValue);
     return {
       [key]: inputValue
     };

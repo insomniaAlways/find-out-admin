@@ -2,7 +2,7 @@ import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { createRecord, findAll, query, deleteRecord, findRecord, updateRecord } from "../server";
 import { sellerProductActionTypes as types } from "../action-types";
 import { catchReduxError, normalizeData } from "../actions/general.action";
-import { sellerProductArraySchema, sellerProductSchema } from "../schemas";
+import { productBrandUnitSchema, sellerProductArraySchema, sellerProductSchema } from "../schemas";
 import { deleteSellerProductSucceed, storeSellerProduct } from "../actions/seller-product.action";
 import { storeProductBrandUnit } from "../actions/product-brand-unit.action";
 
@@ -41,7 +41,7 @@ async function createRequest(payload) {
 
 async function updateRequest(id, payload) {
   try {
-    const response = await updateRecord("product-brand-unit", id, payload);
+    const response = await updateRecord("seller-product", id, payload);
     if (response.data) {
       return response.data;
     } else {
@@ -123,12 +123,15 @@ function* workerCreateRecord({ payload = {}, actions = {} }) {
   }
 }
 
-function* workerUpdatedRecord({ product_brand_unit_id, payload, actions = {} }) {
+function* workerUpdatedRecord({ seller_product_id, product_brand_unit_id, payload, actions = {} }) {
   try {
-    const response = yield call(updateRequest, product_brand_unit_id, payload);
+    yield call(updateRequest, seller_product_id, payload);
     const normalizedData = yield call(normalizeData, {
-      data: response,
-      schema: sellerProductSchema
+      data: {
+        id: product_brand_unit_id,
+        ...payload
+      },
+      schema: productBrandUnitSchema
     });
     yield put(storeProductBrandUnit({ payload: normalizedData, meta: {} }));
     if (actions && actions.onSuccess) {

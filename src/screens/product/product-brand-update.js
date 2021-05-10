@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { useParams } from "react-router";
 import Input from "../../components/elements/input";
 import { toastSuccess } from "../../components/toast-helpers";
 import { updateSellerProduct } from "../../store/actions/seller-product.action";
@@ -14,6 +15,7 @@ function ProductBrandUpdate(props) {
   const [data, updateData] = useState(value);
   const [isEdit, toggleView] = useState(false);
   const [isSaving, toggleSaving] = useState(false);
+  const { seller_product_id } = useParams();
 
   const onSuccess = () => {
     toggleSaving(false);
@@ -26,7 +28,7 @@ function ProductBrandUpdate(props) {
 
   const save = () => {
     toggleSaving(true);
-    update(product_brand_unit_id, { [id]: data }, { onSuccess, onFailed });
+    update(seller_product_id, { [id]: data }, product_brand_unit_id, { onSuccess, onFailed });
   };
 
   const handleInputChange = (name, value) => {
@@ -88,8 +90,8 @@ function ProductBrandUpdate(props) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  update: (product_brand_unit_id, payload, actions = {}) =>
-    dispatch(updateSellerProduct({ product_brand_unit_id, payload, actions }))
+  update: (seller_product_id, payload, product_brand_unit_id, actions = {}) =>
+    dispatch(updateSellerProduct({ seller_product_id, product_brand_unit_id, payload, actions }))
 });
 
 export default connect(null, mapDispatchToProps)(ProductBrandUpdate);

@@ -72,7 +72,6 @@ function* workerQuery({ query = {}, actions = {} }) {
 function* workerFindById({ product_brand_unit_id, actions = {} }) {
   try {
     const response = yield call(makeRequest, "byId", product_brand_unit_id);
-    yield put({ type: types["PRODUCT-BRAND-UNIT_RESET_DATA"] });
     const normalizedData = yield call(normalizeData, {
       data: response,
       schema: productBrandUnitSchema

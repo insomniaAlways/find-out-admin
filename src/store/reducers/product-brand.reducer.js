@@ -12,7 +12,8 @@ const initialState = {
 };
 const request = (state = initialState.request, action) => {
   switch (action.type) {
-    case types["PRODUCT-BRAND_QUERY_REQUEST"] || types["PRODUCT-BRAND_FIND_ALL_REQUEST"]: {
+    case types["PRODUCT-BRAND_QUERY_REQUEST"]:
+    case types["PRODUCT-BRAND_FIND_ALL_REQUEST"]: {
       return {
         ...state,
         isLoading: true,

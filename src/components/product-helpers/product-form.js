@@ -168,7 +168,7 @@ function ProductForm(props) {
       onSave({
         payload: {
           product_brand_id: state.product_brand.id,
-          unit: state.product_brand_unit.value,
+          unit_value: state.product_brand_unit.value,
           // product_brand_unit_id: state.product_brand_unit.id,
           mrp_price: parseFloat(state.mrp_price),
           price: parseFloat(state.price),

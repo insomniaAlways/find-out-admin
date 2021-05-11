@@ -11,7 +11,8 @@ import { Button } from "semantic-ui-react";
 import ModalView from "../../components/modules/modal-view";
 import AddNewProductBrand from "../../components/product-helpers/add-new-product-brand";
 import DeleteView from "../../components/product-helpers/delete-view";
-import { deleteProductBrand } from "../../store/actions/product-brand.action";
+import { deleteProductBrand, queryProductBrand } from "../../store/actions/product-brand.action";
+import { getListData } from "../../store/selectors/data.selector";
 
 const columns = [
   {
@@ -29,7 +30,14 @@ const columns = [
 ];
 
 const ProductDetails = (props) => {
-  const { fetchSellerProduct, sellerProduct = {}, create } = props;
+  const {
+    fetchSellerProduct,
+    sellerProduct = {},
+    create,
+    fetchProductBrand,
+    productBrands,
+    request
+  } = props;
   const { seller_product_id } = useParams();
   const [openModal, toggleModal] = useState(false);
   const { push } = useHistory();
@@ -71,8 +79,11 @@ const ProductDetails = (props) => {
             <TableCommon
               rowClickHandler={rowClickHandler}
               columns={columns}
-              data={sellerProduct.product_brands}
+              isLoading={request.isLoading}
+              data={productBrands}
               tableClassName={"ui simple table"}
+              fetchData={fetchProductBrand}
+              defaultQuery={{ product_id: sellerProduct.id }}
             />
           </div>
         ) : (
@@ -101,9 +112,11 @@ const ProductDetails = (props) => {
 
 const mapStateToProps = () => {
   const getData = getDataById();
+  const getAllData = getListData();
   return (state, { match }) => ({
     sellerProduct: getData(state, "sellerProduct", match.params.seller_product_id),
-    request: state.sellerProduct.request
+    productBrands: getAllData(state, "productBrand"),
+    request: state.productBrand.request
   });
 };
 
@@ -111,6 +124,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchSellerProduct: (seller_product_id) => {
     dispatch(findByIdSellerProduct({ seller_product_id, actions: {} }));
   },
+  fetchProductBrand: (query, actions = {}) => dispatch(queryProductBrand({ query, actions })),
   create: ({ payload, actions }) => dispatch(createSellerProduct({ payload, actions }))
 });
 

@@ -41,6 +41,7 @@ async function deleteRequest(id) {
 function* workerFindAll({ actions = {} }) {
   try {
     const response = yield call(makeRequest);
+    yield put({ type: types["PRODUCT-BRAND_RESET_DATA"] });
     const normalizedData = yield call(normalizeData, {
       data: response,
       schema: productBrandArraySchema
@@ -54,6 +55,7 @@ function* workerFindAll({ actions = {} }) {
 function* workerQuery({ query = {}, actions = {} }) {
   try {
     const response = yield call(makeRequest, "query", query);
+    yield put({ type: types["PRODUCT-BRAND_RESET_DATA"] });
     const normalizedData = yield call(normalizeData, {
       data: response,
       schema: productBrandArraySchema

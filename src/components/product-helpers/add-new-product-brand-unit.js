@@ -109,7 +109,7 @@ function AddNewProductBrandUnit(props) {
       onSave({
         payload: {
           product_brand_id: productBrand.id,
-          unit: state.product_brand_unit.value,
+          unit_value: state.product_brand_unit.value,
           mrp_price: parseFloat(state.mrp_price),
           price: parseFloat(state.price),
           quantity: parseFloat(state.quantity)

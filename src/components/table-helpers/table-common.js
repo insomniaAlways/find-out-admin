@@ -28,7 +28,7 @@ function TableCommon(props) {
   const history = useHistory();
   const location = useLocation();
   const qs = queryString.parse(location.search);
-  const [tableState, updatetableState] = useState("loading");
+  const [tableState, updateTableState] = useState("loading");
 
   const {
     getTableProps, // for passing props to table
@@ -91,13 +91,13 @@ function TableCommon(props) {
 
   useLayoutEffect(() => {
     if (!isLoading && data.length && !error) {
-      updatetableState("loaded");
+      updateTableState("loaded");
     } else if (!isLoading && error) {
-      updatetableState("hasError");
+      updateTableState("hasError");
     } else if (!isLoading && !data.length && !error) {
-      updatetableState("empty");
+      updateTableState("empty");
     } else {
-      updatetableState("loading");
+      updateTableState("loading");
     }
   }, [isLoading, data, error]);
 

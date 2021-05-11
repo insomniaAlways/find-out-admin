@@ -16,8 +16,7 @@ function DropdownHelper(props) {
     handleBlur,
     isDisabled,
     optionLabel,
-    onCreateOption,
-    formatCreateLabel
+    onCreateOption
   } = props;
 
   // const handleAddition = (e, data) => {
@@ -35,6 +34,10 @@ function DropdownHelper(props) {
     setSelectedOption(value, e);
   };
 
+  const getOptionLabel = (option) => {
+    return option[optionLabel] || option.label;
+  };
+
   return (
     <CreatableSelect
       isDisabled={isDisabled}
@@ -47,9 +50,8 @@ function DropdownHelper(props) {
       onBlur={onBlur}
       onChange={handleChange}
       allowCreateWhileLoading={false}
-      getOptionLabel={(option) => option[optionLabel]}
+      getOptionLabel={getOptionLabel}
       onCreateOption={onCreateOption}
-      formatCreateLabel={formatCreateLabel}
     />
   );
 }

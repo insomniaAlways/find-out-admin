@@ -1,8 +1,10 @@
 import clsx from "clsx";
 import React, { useReducer, useState } from "react";
+import { createRecord } from "../../store/server";
 import AsyncDropdown from "../elements/async-dropdown";
 import Dropdown from "../elements/dropdown";
 import Input from "../elements/input";
+import units from "../../utils/units";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -104,15 +106,37 @@ function ProductForm(props) {
     return e;
   };
 
-  const handleCreate = (inputValue) => {
-    debugger;
+  const handleCreate = (inputValue, key, path, actions) => {
+    const payload = {};
+    if (path === "product-brand-unit") {
+      payload.product_brand_id = product_brand.id;
+      payload.unit_value = inputValue;
+    }
+    if (path === "product-brand") {
+      payload.brand_name = inputValue;
+      payload.product_id = product.id;
+    }
+    return createRecord(path, payload).then((res) => {
+      product.product_brands.push(res.data);
+      dispatch({
+        type: "product_brand",
+        value: res.data
+      });
+    });
   };
 
-  const formatCreateLabel = (inputValue, key) => {
-    // console.log(inputValue);
-    return {
-      [key]: inputValue
-    };
+  const pbuHandleCreate = (inputValue) => {
+    units[product.unit].push({
+      label: inputValue,
+      value: inputValue
+    });
+    dispatch({
+      type: "product_brand_unit",
+      value: {
+        label: inputValue,
+        value: inputValue
+      }
+    });
   };
 
   const onSuccess = () => {
@@ -129,7 +153,9 @@ function ProductForm(props) {
       toggleSubmit(true);
       onSave({
         payload: {
-          product_brand_unit_id: state.product_brand_unit.id,
+          product_brand_id: state.product_brand.id,
+          unit: state.product_brand_unit.value,
+          // product_brand_unit_id: state.product_brand_unit.id,
           mrp_price: state.mrp_price,
           price: state.price,
           quantity: state.quantity
@@ -157,8 +183,7 @@ function ProductForm(props) {
           setSelectedOption={(value) => handleDropdownChange("product", value)}
           selectedOption={product}
           placeholder={"Select product"}
-          onCreateOption={handleCreate}
-          formatCreateLabel={(value) => formatCreateLabel(value, "name")}
+          onCreateOption={(value) => handleCreate(value, "name", "product")}
         />
         {errors.product && <span className="text-color-negative">{errors.product}</span>}
       </div>
@@ -172,8 +197,7 @@ function ProductForm(props) {
           setSelectedOption={(value) => handleDropdownChange("product_brand", value)}
           selectedOption={product_brand}
           placeholder={"Select brand"}
-          onCreateOption={handleCreate}
-          formatCreateLabel={(value) => formatCreateLabel(value, "brand_name")}
+          onCreateOption={(value) => handleCreate(value, "brand_name", "product-brand")}
         />
         {errors.product_brand && (
           <span className="text-color-negative">{errors.product_brand}</span>
@@ -181,21 +205,15 @@ function ProductForm(props) {
       </div>
       <div className="field">
         <label>Select Packet Unit</label>
-        <AsyncDropdown
+        <Dropdown
           elementKey={product_brand && product_brand.id}
           isDisabled={!(product && product.id && product_brand && product_brand.id) || isSubmitting}
-          remotePath={"product-brand-unit"}
-          optionLabel={"unit_value"}
-          axiosConfig={{
-            baseURL: "https://findoutv1.herokuapp.com/public/v1/"
-          }}
+          listSource={product ? units[product.unit] : []}
           isSearchEnabled={true}
           setSelectedOption={(value) => handleDropdownChange("product_brand_unit", value)}
           selectedOption={product_brand_unit}
           placeholder={"Select Packet Unit"}
-          query={{ product_brand_id: product_brand && product_brand.id }}
-          onCreateOption={handleCreate}
-          formatCreateLabel={(value) => formatCreateLabel(value, "unit_value")}
+          onCreateOption={pbuHandleCreate}
         />
         {errors.product_brand_unit && (
           <span className="text-color-negative">{errors.product_brand_unit}</span>
@@ -218,7 +236,7 @@ function ProductForm(props) {
                 product_brand &&
                 product_brand.id &&
                 product_brand_unit &&
-                product_brand_unit.id
+                product_brand_unit.value
               ) || isSubmitting
             }
             placeholder={"Enter here"}
@@ -241,7 +259,7 @@ function ProductForm(props) {
                 product_brand &&
                 product_brand.id &&
                 product_brand_unit &&
-                product_brand_unit.id
+                product_brand_unit.value
               ) || isSubmitting
             }
             placeholder={"Enter here"}
@@ -264,7 +282,7 @@ function ProductForm(props) {
                 product_brand &&
                 product_brand.id &&
                 product_brand_unit &&
-                product_brand_unit.id
+                product_brand_unit.value
               ) || isSubmitting
             }
             placeholder={"Enter here"}

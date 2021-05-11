@@ -18,18 +18,21 @@ const columns = [
     Header: "MRP",
     accessor: "mrp_price",
     headerClassName: "text-color-white text-center",
-    Cell: ProductBrandUpdate
+    Cell: ProductBrandUpdate,
+    cellClassNames: "padding-md-left padding-md-right"
   },
   {
     Header: "Price",
     accessor: "price",
     headerClassName: "text-color-white text-center",
-    Cell: ProductBrandUpdate
+    Cell: ProductBrandUpdate,
+    cellClassNames: "padding-md-left padding-md-right"
   },
   {
     Header: "Available Quantity (no. of packet)",
     accessor: "quantity",
     headerClassName: "text-color-white text-center",
+    cellClassNames: "padding-md-left padding-md-right",
     Cell: ProductBrandUpdate
   }
 ];
@@ -62,7 +65,7 @@ const ProductBrandDetails = (props) => {
             data={productBrandUnit}
             fetchData={fetchProductBrandUnit}
             isLoading={productBrandUnitRequest.isLoading}
-            tableClassName={"ui simple table"}
+            tableClassName={"ui simple celled table"}
             defaultQuery={{ product_brand_id: product_brand_id }}
           />
         </div>

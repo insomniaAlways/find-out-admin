@@ -16,8 +16,7 @@ function AsyncDropdown(props) {
     handleBlur,
     isDisabled = false,
     query = {},
-    onCreateOption,
-    formatCreateLabel
+    onCreateOption
   } = props;
 
   const onBlur = (e) => {
@@ -48,12 +47,19 @@ function AsyncDropdown(props) {
   const handleInputChange = (searchText) => {
     return searchText;
   };
+
+  const getOptionLabel = (option) => {
+    if (option && option.__isNew__) {
+      return option.label;
+    }
+    return option[optionLabel];
+  };
+
   return (
     <AsyncCreatableSelect
       key={elementKey || remotePath}
       isDisabled={isDisabled}
-      getOptionLabel={(option) => option[optionLabel]}
-      cacheOptions
+      cacheOptions={false}
       loadOptions={loadOptions}
       defaultOptions
       onInputChange={handleInputChange}
@@ -61,13 +67,12 @@ function AsyncDropdown(props) {
       isSearchable={isSearchEnabled}
       isClearable={true}
       defaultValue={selectedOption}
-      getOptionValue={(option) => option[optionLabel]}
+      getOptionLabel={getOptionLabel}
       value={selectedOption}
       placeholder={placeholder}
       allowCreateWhileLoading={false}
       onCreateOption={onCreateOption}
       onBlur={onBlur}
-      formatCreateLabel={formatCreateLabel}
     />
   );
 }

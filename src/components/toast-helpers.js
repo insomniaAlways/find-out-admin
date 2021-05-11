@@ -25,7 +25,7 @@ export function toastError(error, isIcon) {
     });
   } else if (error && error.response && error.response.data) {
     let e = {
-      title: error.response.data || "",
+      title: "",
       detail: error.response.data.message
     };
     return toast.error(<ToastHelper {...e} />);

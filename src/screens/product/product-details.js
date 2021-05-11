@@ -10,12 +10,22 @@ import TableCommon from "../../components/table-helpers/table-common";
 import { Button } from "semantic-ui-react";
 import ModalView from "../../components/modules/modal-view";
 import AddNewProductBrand from "../../components/product-helpers/add-new-product-brand";
+import DeleteView from "../../components/product-helpers/delete-view";
+import { deleteProductBrand } from "../../store/actions/product-brand.action";
 
 const columns = [
   {
     Header: "Brand Product",
     accessor: "brand_name",
     headerClassName: "text-color-white"
+  },
+  {
+    Header: "",
+    accessor: "id",
+    cellClassNames: "ignoreRowClick",
+    triggerDelete: deleteProductBrand,
+    item_key: "product_brand_id",
+    Cell: DeleteView
   }
 ];
 

@@ -2,15 +2,27 @@ import React from "react";
 import { connect } from "react-redux";
 import TableCommon from "../../components/table-helpers/table-common";
 import { useHistory } from "react-router-dom";
-import { findAllSellerProduct } from "../../store/actions/seller-product.action";
+import {
+  deleteSellerProduct,
+  findAllSellerProduct
+} from "../../store/actions/seller-product.action";
 import { getListData } from "../../store/selectors/data.selector";
 import Button from "../../components/elements/button";
+import DeleteView from "../../components/product-helpers/delete-view";
 
 const columns = [
   {
     Header: "Name",
     accessor: "name",
     headerClassName: "text-color-white"
+  },
+  {
+    Header: "",
+    accessor: "id",
+    cellClassNames: "ignoreRowClick",
+    triggerDelete: deleteSellerProduct,
+    item_key: "seller_product_id",
+    Cell: DeleteView
   }
 ];
 

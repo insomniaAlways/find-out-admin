@@ -1,9 +1,9 @@
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
-import { findAll, query, findRecord } from "../server";
+import { findAll, query, findRecord, deleteRecord } from "../server";
 import { productBrandActionTypes as types } from "../action-types";
 import { catchReduxError, normalizeData } from "../actions/general.action";
 import { productBrandArraySchema, productBrandSchema } from "../schemas";
-import { storeProductBrand } from "../actions/product-brand.action";
+import { deleteProductBrandSucceed, storeProductBrand } from "../actions/product-brand.action";
 
 async function makeRequest(type, data) {
   try {
@@ -15,6 +15,19 @@ async function makeRequest(type, data) {
     } else {
       response = await findAll("product-brand");
     }
+    if (response.data) {
+      return response.data;
+    } else {
+      return response;
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function deleteRequest(id) {
+  try {
+    const response = await deleteRecord("product-brand", id);
     if (response.data) {
       return response.data;
     } else {
@@ -64,6 +77,21 @@ function* workerFindById({ product_brand_id, actions = {} }) {
   }
 }
 
+function* workerDeleteRecord({ product_brand_id, actions = {} }) {
+  try {
+    yield call(deleteRequest, product_brand_id);
+    yield put(deleteProductBrandSucceed({ product_brand_id, meta: {} }));
+    if (actions.onSuccess) {
+      yield call(actions.onSuccess);
+    }
+  } catch (error) {
+    if (actions.onFailed) {
+      yield call(actions.onFailed);
+    }
+    yield call(catchReduxError, types["PRODUCT-BRAND_REQUEST_FAILED"], error);
+  }
+}
+
 // ---------------- watchers -----------------------
 
 function* watcherFindAll() {
@@ -78,6 +106,15 @@ function* watcherFindById() {
   yield takeLatest(types["PRODUCT-BRAND_FIND_BY_ID_REQUEST"], workerFindById);
 }
 
+function* watcherDeleteRecord() {
+  yield takeLatest(types["PRODUCT-BRAND_DELETE_REQUEST"], workerDeleteRecord);
+}
+
 export default function* rootSaga() {
-  yield all([fork(watcherFindAll), fork(watcherQuery), fork(watcherFindById)]);
+  yield all([
+    fork(watcherFindAll),
+    fork(watcherQuery),
+    fork(watcherFindById),
+    fork(watcherDeleteRecord)
+  ]);
 }

@@ -54,7 +54,7 @@ async function updateRequest(id, payload) {
 
 async function deleteRequest(id) {
   try {
-    const response = await deleteRecord("product", id);
+    const response = await deleteRecord("seller-product", id);
     if (response.data) {
       return response.data;
     } else {
@@ -149,7 +149,13 @@ function* workerDeleteRecord({ seller_product_id, actions = {} }) {
   try {
     yield call(deleteRequest, seller_product_id);
     yield put(deleteSellerProductSucceed({ seller_product_id, meta: {} }));
+    if (actions.onSuccess) {
+      yield call(actions.onSuccess);
+    }
   } catch (error) {
+    if (actions.onFailed) {
+      yield call(actions.onFailed);
+    }
     yield call(catchReduxError, types["SELLER-PRODUCT_FAILED"], error);
   }
 }

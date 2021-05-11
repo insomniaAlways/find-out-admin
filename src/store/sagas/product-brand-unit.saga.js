@@ -86,7 +86,13 @@ function* workerDeleteRecord({ product_brand_unit_id, actions = {} }) {
   try {
     yield call(deleteRequest, product_brand_unit_id);
     yield put(deleteProductBrandUnitSucceed({ product_brand_unit_id, meta: {} }));
+    if (actions.onSuccess) {
+      yield call(actions.onSuccess);
+    }
   } catch (error) {
+    if (actions.onFailed) {
+      yield call(actions.onFailed);
+    }
     yield call(catchReduxError, types["PRODUCT-BRAND-UNIT_REQUEST_FAILED"], error);
   }
 }

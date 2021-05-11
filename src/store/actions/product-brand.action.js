@@ -30,3 +30,19 @@ export const storeProductBrand = ({ payload, meta = {} }) => {
     meta
   };
 };
+
+export function deleteProductBrand({ product_brand_id, actions = {} }) {
+  return {
+    type: types["PRODUCT-BRAND_DELETE_REQUEST"],
+    product_brand_id,
+    actions
+  };
+}
+
+export function deleteProductBrandSucceed({ product_brand_id, meta = {} }) {
+  return {
+    type: types["PRODUCT-BRAND_DELETE_SUCCEED"],
+    id: product_brand_id,
+    meta
+  };
+}

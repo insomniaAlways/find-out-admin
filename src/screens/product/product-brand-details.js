@@ -3,7 +3,10 @@ import { useParams } from "react-router";
 import { connect } from "react-redux";
 import { getDataById } from "../../store/selectors/find-data.selector";
 import TableCommon from "../../components/table-helpers/table-common";
-import { queryProductBrandUnit } from "../../store/actions/product-brand-unit.action";
+import {
+  deleteProductBrandUnit,
+  queryProductBrandUnit
+} from "../../store/actions/product-brand-unit.action";
 import { findByIdProductBrand } from "../../store/actions/product-brand.action";
 import { getListData } from "../../store/selectors/data.selector";
 import ProductBrandUpdate from "./product-brand-update";
@@ -14,6 +17,7 @@ import {
   createSellerProduct,
   findByIdSellerProduct
 } from "../../store/actions/seller-product.action";
+import DeleteView from "../../components/product-helpers/delete-view";
 
 const columns = [
   {
@@ -41,6 +45,14 @@ const columns = [
     headerClassName: "text-color-white text-center",
     cellClassNames: "padding-md-left padding-md-right",
     Cell: ProductBrandUpdate
+  },
+  {
+    Header: "",
+    accessor: "id",
+    cellClassNames: "ignoreRowClick",
+    triggerDelete: deleteProductBrandUnit,
+    item_key: "product_brand_unit_id",
+    Cell: DeleteView
   }
 ];
 

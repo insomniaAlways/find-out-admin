@@ -31,18 +31,18 @@ export const storeProductBrandUnit = ({ payload, meta = {} }) => {
   };
 };
 
-export function deleteProductBrandUnit({ product_brand_unit, actions = {} }) {
+export function deleteProductBrandUnit({ product_brand_unit_id, actions = {} }) {
   return {
     type: types["PRODUCT-BRAND-UNIT_DELETE_REQUEST"],
-    product_brand_unit,
+    product_brand_unit_id,
     actions
   };
 }
 
-export function deleteProductBrandUnitSucceed({ product_brand_unit, meta = {} }) {
+export function deleteProductBrandUnitSucceed({ product_brand_unit_id, meta = {} }) {
   return {
     type: types["PRODUCT-BRAND-UNIT_DELETE_SUCCEED"],
-    id: product_brand_unit,
+    id: product_brand_unit_id,
     meta
   };
 }

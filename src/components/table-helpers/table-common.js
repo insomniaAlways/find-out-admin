@@ -223,11 +223,11 @@ export default TableCommon;
 TableCommon.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.array.isRequired,
-  fetchData: PropTypes.func.isRequired,
+  fetchData: PropTypes.func,
   totalCount: PropTypes.string,
   pageSize: PropTypes.string,
   tableClassName: PropTypes.string,
-  isLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool,
   event_id: PropTypes.string,
   error: PropTypes.any,
   containerClassNames: PropTypes.string

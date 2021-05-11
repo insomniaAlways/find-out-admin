@@ -125,6 +125,20 @@ function ProductForm(props) {
     });
   };
 
+  const productBrandHandleCreate = (inputValue) => {
+    const payload = {
+      brand_name: inputValue,
+      product_id: state.product.id
+    };
+    return createRecord("product-brand", payload).then((res) => {
+      product.product_brands.push(res.data);
+      dispatch({
+        type: "product_brand",
+        value: res.data
+      });
+    });
+  };
+
   const pbuHandleCreate = (inputValue) => {
     units[product.unit].push({
       label: inputValue,
@@ -156,9 +170,9 @@ function ProductForm(props) {
           product_brand_id: state.product_brand.id,
           unit: state.product_brand_unit.value,
           // product_brand_unit_id: state.product_brand_unit.id,
-          mrp_price: state.mrp_price,
-          price: state.price,
-          quantity: state.quantity
+          mrp_price: parseFloat(state.mrp_price),
+          price: parseFloat(state.price),
+          quantity: parseFloat(state.quantity)
         },
         actions: {
           onSuccess,
@@ -197,7 +211,7 @@ function ProductForm(props) {
           setSelectedOption={(value) => handleDropdownChange("product_brand", value)}
           selectedOption={product_brand}
           placeholder={"Select brand"}
-          onCreateOption={(value) => handleCreate(value, "brand_name", "product-brand")}
+          onCreateOption={productBrandHandleCreate}
         />
         {errors.product_brand && (
           <span className="text-color-negative">{errors.product_brand}</span>

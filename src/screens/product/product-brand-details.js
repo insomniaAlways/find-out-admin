@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { connect } from "react-redux";
 import { getDataById } from "../../store/selectors/find-data.selector";
@@ -7,10 +7,17 @@ import { queryProductBrandUnit } from "../../store/actions/product-brand-unit.ac
 import { findByIdProductBrand } from "../../store/actions/product-brand.action";
 import { getListData } from "../../store/selectors/data.selector";
 import ProductBrandUpdate from "./product-brand-update";
+import { Button } from "semantic-ui-react";
+import ModalView from "../../components/modules/modal-view";
+import AddNewProductBrandUnit from "../../components/product-helpers/add-new-product-brand-unit";
+import {
+  createSellerProduct,
+  findByIdSellerProduct
+} from "../../store/actions/seller-product.action";
 
 const columns = [
   {
-    Header: "Packet(gm)",
+    Header: "Packet",
     accessor: "available_unit",
     headerClassName: "text-color-white"
   },
@@ -43,21 +50,37 @@ const ProductBrandDetails = (props) => {
     productBrand = {},
     productBrandUnitRequest,
     productBrandUnit,
-    fetchProductBrandUnit
+    fetchProductBrandUnit,
+    fetchSellerProduct,
+    sellerProduct,
+    create
   } = props;
-  const { product_brand_id } = useParams();
+  const { product_brand_id, seller_product_id } = useParams();
+  const [openModal, toggleModal] = useState(false);
 
   useEffect(() => {
     if (product_brand_id) {
       fetchProductBrand(product_brand_id);
     }
-  }, [fetchProductBrand, product_brand_id]);
+    if (seller_product_id) {
+      fetchSellerProduct(seller_product_id);
+    }
+  }, [fetchProductBrand, product_brand_id, seller_product_id, fetchSellerProduct]);
 
   if (productBrand && Object.keys(productBrand) && productBrand.id) {
     return (
       <div className="ui segments">
-        <div className="ui segment">
-          <h3>{productBrand.brand_name}</h3>
+        <div className="ui segment padding-no">
+          <div className="ui stackable two column grid margin-no">
+            <div className="middle aligned column">
+              <h3>{productBrand.brand_name}</h3>
+            </div>
+            <div className="column text-right">
+              <Button primary className="text-right" onClick={() => toggleModal((prev) => !prev)}>
+                Add more packet
+              </Button>
+            </div>
+          </div>
         </div>
         <div className="ui segment">
           <TableCommon
@@ -69,6 +92,24 @@ const ProductBrandDetails = (props) => {
             defaultQuery={{ product_brand_id: product_brand_id }}
           />
         </div>
+        {openModal ? (
+          <ModalView
+            openModal={openModal}
+            toggleModal={toggleModal}
+            showActions={false}
+            headerContent={<h3>Add New Packet</h3>}
+            content={
+              <AddNewProductBrandUnit
+                productBrand={productBrand}
+                sellerProduct={sellerProduct}
+                toggleModal={toggleModal}
+                onSave={create}
+              />
+            }
+          />
+        ) : (
+          <></>
+        )}
       </div>
     );
   } else {
@@ -81,6 +122,7 @@ const mapStateToProps = () => {
   const getAllData = getListData();
   return (state, { match }) => ({
     productBrand: getData(state, "productBrand", match.params.product_brand_id),
+    sellerProduct: getData(state, "sellerProduct", match.params.seller_product_id),
     productBrandUnit: getAllData(state, "productBrandUnit"),
     productBrandUnitRequest: state.productBrandUnit.request,
     request: state.productBrand.request
@@ -93,7 +135,10 @@ const mapDispatchToProps = (dispatch) => ({
   },
   fetchProductBrandUnit: (query) => {
     dispatch(queryProductBrandUnit({ query, actions: {} }));
-  }
+  },
+  fetchSellerProduct: (seller_product_id, actions = {}) =>
+    dispatch(findByIdSellerProduct({ seller_product_id, actions })),
+  create: ({ payload, actions }) => dispatch(createSellerProduct({ payload, actions }))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductBrandDetails);

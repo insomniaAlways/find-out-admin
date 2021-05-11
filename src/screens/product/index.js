@@ -19,7 +19,6 @@ const columns = [
   {
     Header: "",
     accessor: "id",
-    cellClassNames: "ignoreRowClick",
     triggerDelete: deleteSellerProduct,
     item_key: "seller_product_id",
     Cell: DeleteView

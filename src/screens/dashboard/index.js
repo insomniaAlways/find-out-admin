@@ -11,11 +11,15 @@ function DashBoard() {
         <Count title={"Pending Orders"} value={15} />
         <Count title={"Canceled Orders"} value={36} />
       </div>
+      <div className="ui equal width stackable grid margin-no">
+        <Count title={"Low stock packets"} value={10} className="low-stock" />
+        <Count title={"Empty stock"} value={12} className="red text-color-white" />
+      </div>
       <div className="ui segments bg-transparent border-none box-shadow-none">
         <div className="ui segment bg-transparent border-none box-shadow-none text-weight-medium">
           Recent Activities:
         </div>
-        <div className="ui horizontal segments bg-white" style={{ height: "calc(100vh - 370px)" }}>
+        <div className="ui horizontal segments bg-white" style={{ height: "calc(100vh - 500px);" }}>
           <div className="ui segment">
             <p>Pending Orders: </p>
             <ListView />

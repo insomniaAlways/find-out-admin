@@ -23,7 +23,7 @@ const columns = [
   {
     Header: "Packet",
     accessor: "available_unit",
-    headerClassName: "text-color-white"
+    headerClassName: "text-color-white text-center"
   },
   {
     Header: "MRP",
@@ -40,15 +40,22 @@ const columns = [
     cellClassNames: "padding-md-left padding-md-right"
   },
   {
-    Header: "Available Quantity (no. of packet)",
+    Header: (
+      <>
+        <div>Available Quantity</div>
+        <span className="text-size-sm text-weight-normal">(no. of packet)</span>
+      </>
+    ),
     accessor: "quantity",
-    headerClassName: "text-color-white text-center",
+    headerClassName: "text-color-white text-center padding-vs",
     cellClassNames: "padding-md-left padding-md-right",
     Cell: ProductBrandUpdate
   },
   {
     Header: "",
     accessor: "id",
+    width: 50,
+    headerClassName: "border-none",
     triggerDelete: deleteProductBrandUnit,
     item_key: "product_brand_unit_id",
     Cell: DeleteView
@@ -93,12 +100,13 @@ const ProductBrandDetails = (props) => {
             </div>
           </div>
         </div>
-        <div className="ui segment">
+        <div className="ui segment table-container">
           <TableCommon
             columns={columns}
             data={productBrandUnit}
             fetchData={fetchProductBrandUnit}
             isLoading={productBrandUnitRequest.isLoading}
+            containerClassNames={"height-full"}
             tableClassName={"ui simple celled table"}
             defaultQuery={{ product_brand_id: product_brand_id }}
           />
@@ -124,7 +132,14 @@ const ProductBrandDetails = (props) => {
       </div>
     );
   } else {
-    return <div>Loading...</div>;
+    return (
+      <div class="ui segment" style={{ height: "calc(100% - 40px)" }}>
+        <div class="ui active inverted dimmer">
+          <div class="ui text loader">Loading</div>
+        </div>
+        <p></p>
+      </div>
+    );
   }
 };
 

@@ -23,6 +23,7 @@ const columns = [
   {
     Header: "",
     accessor: "id",
+    headerClassName: "border-none",
     triggerDelete: deleteProductBrand,
     item_key: "product_brand_id",
     Cell: DeleteView
@@ -75,12 +76,13 @@ const ProductDetails = (props) => {
           </div>
         </div>
         {sellerProduct && sellerProduct.product_brands.length ? (
-          <div className="ui segment">
+          <div className="ui segment table-container">
             <TableCommon
               rowClickHandler={rowClickHandler}
               columns={columns}
               isLoading={request.isLoading}
               data={productBrands}
+              containerClassNames={"height-full"}
               tableClassName={"ui simple table"}
               fetchData={fetchProductBrand}
               defaultQuery={{ product_id: sellerProduct.id }}
@@ -106,7 +108,14 @@ const ProductDetails = (props) => {
       </div>
     );
   } else {
-    return <div>Loading...</div>;
+    return (
+      <div class="ui segment" style={{ height: "calc(100% - 40px)" }}>
+        <div class="ui active inverted dimmer">
+          <div class="ui text loader">Loading</div>
+        </div>
+        <p></p>
+      </div>
+    );
   }
 };
 

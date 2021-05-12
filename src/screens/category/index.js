@@ -15,13 +15,16 @@ function Category(props) {
   const { categories, fetchCategory, request } = props;
 
   return (
-    <TableCommon
-      columns={columns}
-      data={categories}
-      fetchData={fetchCategory}
-      isLoading={request.isLoading}
-      tableClassName={"ui simple table"}
-    />
+    <div className="ui segment table-container">
+      <TableCommon
+        columns={columns}
+        data={categories}
+        fetchData={fetchCategory}
+        isLoading={request.isLoading}
+        containerClassNames={"height-full"}
+        tableClassName={"ui simple table"}
+      />
+    </div>
   );
 }
 

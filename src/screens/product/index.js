@@ -14,11 +14,13 @@ const columns = [
   {
     Header: "Name",
     accessor: "name",
+    width: "90%",
     headerClassName: "text-color-white"
   },
   {
     Header: "",
     accessor: "id",
+    headerClassName: "border-none",
     triggerDelete: deleteSellerProduct,
     item_key: "seller_product_id",
     Cell: DeleteView
@@ -27,6 +29,7 @@ const columns = [
 
 function Product(props) {
   const { products, fetchSellerProduct, request } = props;
+
   const history = useHistory();
 
   const rowClickHandler = (row) => {
@@ -48,13 +51,14 @@ function Product(props) {
           className={"tiny"}
         />
       </div>
-      <div className="ui segment">
+      <div className="ui segment table-container">
         <TableCommon
           rowClickHandler={rowClickHandler}
           columns={columns}
           data={products}
           fetchData={fetchSellerProduct}
           isLoading={request.isLoading}
+          containerClassNames={"height-full"}
           tableClassName={"ui simple table"}
         />
       </div>

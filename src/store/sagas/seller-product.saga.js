@@ -4,7 +4,8 @@ import { sellerProductActionTypes as types } from "../action-types";
 import { catchReduxError, normalizeData } from "../actions/general.action";
 import { productBrandUnitSchema, sellerProductArraySchema, sellerProductSchema } from "../schemas";
 import { deleteSellerProductSucceed, storeSellerProduct } from "../actions/seller-product.action";
-import { storeProductBrandUnit } from "../actions/product-brand-unit.action";
+import { queryProductBrandUnit, storeProductBrandUnit } from "../actions/product-brand-unit.action";
+import { queryProductBrand } from "../actions/product-brand.action";
 
 async function makeRequest(type, data) {
   try {
@@ -106,12 +107,18 @@ function* workerFindById({ seller_product_id, actions = {} }) {
 
 function* workerCreateRecord({ payload = {}, actions = {} }) {
   try {
-    const response = yield call(createRequest, payload);
-    const normalizedData = yield call(normalizeData, {
-      data: response,
-      schema: sellerProductSchema
-    });
-    yield put(storeSellerProduct({ payload: normalizedData, meta: {} }));
+    yield call(createRequest, payload);
+    if (payload && payload.product_id) {
+      yield put(queryProductBrand({ query: { product_id: payload.product_id }, actions: {} }));
+    }
+    if (payload && payload.product_brand_id) {
+      yield put(
+        queryProductBrandUnit({
+          query: { product_brand_id: payload.product_brand_id },
+          actions: {}
+        })
+      );
+    }
     if (actions && actions.onSuccess) {
       actions.onSuccess();
     }

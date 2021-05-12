@@ -25,7 +25,7 @@ function DeleteView(props) {
   };
 
   return (
-    <div className="text-right ignoreRowClick">
+    <div className="text-center ignoreRowClick">
       {isLoading ? (
         <span className="ui mini active inline loader"></span>
       ) : (

@@ -137,6 +137,7 @@ function AddNewProductBrand(props) {
       toggleSubmit(true);
       onSave({
         payload: {
+          product_id: sellerProduct.id,
           product_brand_id: state.product_brand.id,
           unit_value: state.product_brand_unit.value,
           mrp_price: parseFloat(state.mrp_price),

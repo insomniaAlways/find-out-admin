@@ -133,9 +133,9 @@ const ProductBrandDetails = (props) => {
     );
   } else {
     return (
-      <div class="ui segment" style={{ height: "calc(100% - 40px)" }}>
-        <div class="ui active inverted dimmer">
-          <div class="ui text loader">Loading</div>
+      <div className="ui segment" style={{ height: "calc(100% - 40px)" }}>
+        <div className="ui active inverted dimmer">
+          <div className="ui text loader">Loading</div>
         </div>
         <p></p>
       </div>

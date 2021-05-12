@@ -13,11 +13,9 @@ import ProductBrandUpdate from "./product-brand-update";
 import { Button } from "semantic-ui-react";
 import ModalView from "../../components/modules/modal-view";
 import AddNewProductBrandUnit from "../../components/product-helpers/add-new-product-brand-unit";
-import {
-  createSellerProduct,
-  findByIdSellerProduct
-} from "../../store/actions/seller-product.action";
+import { createSellerProduct } from "../../store/actions/seller-product.action";
 import DeleteView from "../../components/product-helpers/delete-view";
+import { findByIdProduct } from "../../store/actions/product.action";
 
 const columns = [
   {
@@ -69,21 +67,21 @@ const ProductBrandDetails = (props) => {
     productBrandUnitRequest,
     productBrandUnit,
     fetchProductBrandUnit,
-    fetchSellerProduct,
-    sellerProduct,
+    fetchProduct,
+    product,
     create
   } = props;
-  const { product_brand_id, seller_product_id } = useParams();
+  const { product_brand_id, product_id } = useParams();
   const [openModal, toggleModal] = useState(false);
 
   useEffect(() => {
     if (product_brand_id) {
       fetchProductBrand(product_brand_id);
     }
-    if (seller_product_id) {
-      fetchSellerProduct(seller_product_id);
+    if (product_id) {
+      fetchProduct(product_id);
     }
-  }, [fetchProductBrand, product_brand_id, seller_product_id, fetchSellerProduct]);
+  }, [fetchProductBrand, product_brand_id, product_id, fetchProduct]);
 
   if (productBrand && Object.keys(productBrand) && productBrand.id) {
     return (
@@ -120,7 +118,7 @@ const ProductBrandDetails = (props) => {
             content={
               <AddNewProductBrandUnit
                 productBrand={productBrand}
-                sellerProduct={sellerProduct}
+                product={product}
                 toggleModal={toggleModal}
                 onSave={create}
               />
@@ -148,7 +146,7 @@ const mapStateToProps = () => {
   const getAllData = getListData();
   return (state, { match }) => ({
     productBrand: getData(state, "productBrand", match.params.product_brand_id),
-    sellerProduct: getData(state, "sellerProduct", match.params.seller_product_id),
+    product: getData(state, "product", match.params.product_id),
     productBrandUnit: getAllData(state, "productBrandUnit"),
     productBrandUnitRequest: state.productBrandUnit.request,
     request: state.productBrand.request
@@ -162,8 +160,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchProductBrandUnit: (query) => {
     dispatch(queryProductBrandUnit({ query, actions: {} }));
   },
-  fetchSellerProduct: (seller_product_id, actions = {}) =>
-    dispatch(findByIdSellerProduct({ seller_product_id, actions })),
+  fetchProduct: (product_id, actions = {}) => dispatch(findByIdProduct({ product_id, actions })),
   create: ({ payload, actions }) => dispatch(createSellerProduct({ payload, actions }))
 });
 

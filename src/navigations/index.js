@@ -73,11 +73,11 @@ export const privateRoutes = [
     component: RegisterStore
   },
   {
-    path: "/product/:seller_product_id/product-brand/:product_brand_id/details",
+    path: "/product/:product_id/product-brand/:product_brand_id/details",
     component: ProductBrandDetails
   },
   {
-    path: "/product/:seller_product_id/details",
+    path: "/product/:product_id/details",
     component: ProductDetails
   },
   {

@@ -46,9 +46,9 @@ const dataReducer = combineReducers({
   byId: getById("product-brand-unit")
 });
 
-const cartItemReducer = combineReducers({
+const productBrandUnit = combineReducers({
   request,
   data: dataReducer
 });
 
-export default cartItemReducer;
+export default productBrandUnit;

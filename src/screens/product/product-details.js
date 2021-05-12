@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { connect } from "react-redux";
-import {
-  createSellerProduct,
-  findByIdSellerProduct
-} from "../../store/actions/seller-product.action";
+import { createSellerProduct } from "../../store/actions/seller-product.action";
 import { getDataById } from "../../store/selectors/find-data.selector";
 import TableCommon from "../../components/table-helpers/table-common";
 import { Button } from "semantic-ui-react";
@@ -13,6 +10,7 @@ import AddNewProductBrand from "../../components/product-helpers/add-new-product
 import DeleteView from "../../components/product-helpers/delete-view";
 import { deleteProductBrand, queryProductBrand } from "../../store/actions/product-brand.action";
 import { getListData } from "../../store/selectors/data.selector";
+import { findByIdProduct } from "../../store/actions/product.action";
 
 const columns = [
   {
@@ -31,15 +29,8 @@ const columns = [
 ];
 
 const ProductDetails = (props) => {
-  const {
-    fetchSellerProduct,
-    sellerProduct = {},
-    create,
-    fetchProductBrand,
-    productBrands,
-    request
-  } = props;
-  const { seller_product_id } = useParams();
+  const { fetchProduct, product = {}, create, fetchProductBrand, productBrands, request } = props;
+  const { product_id } = useParams();
   const [openModal, toggleModal] = useState(false);
   const { push } = useHistory();
 
@@ -50,23 +41,23 @@ const ProductDetails = (props) => {
   };
 
   const fetchData = () => {
-    if (seller_product_id) {
-      fetchSellerProduct(seller_product_id);
+    if (product_id) {
+      fetchProduct(product_id);
     }
   };
 
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fetchSellerProduct, seller_product_id]);
+  }, [fetchProduct, product_id]);
 
-  if (sellerProduct && Object.keys(sellerProduct) && sellerProduct.id) {
+  if (product && Object.keys(product) && product.id) {
     return (
       <div className="ui segments">
         <div className="ui segment padding-no">
           <div className="ui stackable two column grid margin-no">
             <div className="middle aligned column">
-              <h3>{sellerProduct.name}</h3>
+              <h3>{product.name}</h3>
             </div>
             <div className="column text-right">
               <Button primary className="text-right" onClick={() => toggleModal((prev) => !prev)}>
@@ -75,7 +66,7 @@ const ProductDetails = (props) => {
             </div>
           </div>
         </div>
-        {sellerProduct && sellerProduct.product_brands.length ? (
+        {product && product.product_brands.length ? (
           <div className="ui segment table-container">
             <TableCommon
               rowClickHandler={rowClickHandler}
@@ -85,7 +76,7 @@ const ProductDetails = (props) => {
               containerClassNames={"height-full"}
               tableClassName={"ui simple table"}
               fetchData={fetchProductBrand}
-              defaultQuery={{ product_id: sellerProduct.id }}
+              defaultQuery={{ product_id: product.id }}
             />
           </div>
         ) : (
@@ -97,7 +88,7 @@ const ProductDetails = (props) => {
           showActions={false}
           content={
             <AddNewProductBrand
-              sellerProduct={sellerProduct}
+              product={product}
               onSave={create}
               toggleModal={toggleModal}
               reFetchData={fetchData}
@@ -123,15 +114,15 @@ const mapStateToProps = () => {
   const getData = getDataById();
   const getAllData = getListData();
   return (state, { match }) => ({
-    sellerProduct: getData(state, "sellerProduct", match.params.seller_product_id),
+    product: getData(state, "product", match.params.product_id),
     productBrands: getAllData(state, "productBrand"),
     request: state.productBrand.request
   });
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchSellerProduct: (seller_product_id) => {
-    dispatch(findByIdSellerProduct({ seller_product_id, actions: {} }));
+  fetchProduct: (product_id) => {
+    dispatch(findByIdProduct({ product_id, actions: {} }));
   },
   fetchProductBrand: (query, actions = {}) => dispatch(queryProductBrand({ query, actions })),
   create: ({ payload, actions }) => dispatch(createSellerProduct({ payload, actions }))

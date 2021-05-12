@@ -4,9 +4,6 @@ import { schema } from "normalizr";
 const categorySchema = new schema.Entity("category");
 const categoryArraySchema = new schema.Array(categorySchema);
 
-const itemSchema = new schema.Entity("item");
-const itemArraySchema = new schema.Array(itemSchema);
-
 const productSchema = new schema.Entity("product");
 const productArraySchema = new schema.Array(productSchema);
 
@@ -22,8 +19,6 @@ const productBrandUnitArraySchema = new schema.Array(productBrandUnitSchema);
 export {
   categorySchema,
   categoryArraySchema,
-  itemSchema,
-  itemArraySchema,
   productSchema,
   productArraySchema,
   productBrandSchema,

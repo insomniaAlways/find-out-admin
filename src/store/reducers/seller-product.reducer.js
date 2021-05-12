@@ -46,9 +46,9 @@ const dataReducer = combineReducers({
   byId: getById("seller-product")
 });
 
-const cartItemReducer = combineReducers({
+const sellerProduct = combineReducers({
   request,
   data: dataReducer
 });
 
-export default cartItemReducer;
+export default sellerProduct;

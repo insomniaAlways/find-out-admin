@@ -3,7 +3,7 @@ import axios from "axios";
 import store from "../";
 // import { initUnAuthenticate } from '../actions/session.action';
 
-const host = "https://findoutv1.herokuapp.com/admin/v1/";
+const host = "https://findoutv1.herokuapp.com/seller/v1/";
 
 export const axiosInstance = axios.create({
   baseURL: host,

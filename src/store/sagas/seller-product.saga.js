@@ -11,11 +11,11 @@ async function makeRequest(type, data) {
   try {
     let response = {};
     if (type === "query") {
-      response = await query("product", data);
+      response = await query("seller-product", data);
     } else if (type === "byId") {
-      response = await findRecord("product", data);
+      response = await findRecord("seller-product", data);
     } else {
-      response = await findAll("product");
+      response = await findAll("seller-product");
     }
     if (response.data) {
       return response.data;
@@ -130,12 +130,12 @@ function* workerCreateRecord({ payload = {}, actions = {} }) {
   }
 }
 
-function* workerUpdatedRecord({ seller_product_id, product_brand_unit_id, payload, actions = {} }) {
+function* workerUpdatedRecord({ seller_product_id, payload, actions = {} }) {
   try {
     yield call(updateRequest, seller_product_id, payload);
     const normalizedData = yield call(normalizeData, {
       data: {
-        id: product_brand_unit_id,
+        id: seller_product_id,
         ...payload
       },
       schema: productBrandUnitSchema

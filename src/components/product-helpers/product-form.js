@@ -130,7 +130,9 @@ function ProductForm(props) {
       brand_name: inputValue,
       product_id: state.product.id
     };
-    return createRecord("product-brand", payload).then((res) => {
+    return createRecord("product-brand", payload, {
+      baseURL: "https://findoutv1.herokuapp.com/public/v1"
+    }).then((res) => {
       product.product_brands.push(res.data);
       dispatch({
         type: "product_brand",
@@ -191,7 +193,7 @@ function ProductForm(props) {
           optionLabel={"name"}
           isDisabled={isSubmitting}
           axiosConfig={{
-            baseURL: "https://findoutv1.herokuapp.com/api/v1"
+            baseURL: "https://findoutv1.herokuapp.com/public/v1"
           }}
           isSearchEnabled={true}
           setSelectedOption={(value) => handleDropdownChange("product", value)}

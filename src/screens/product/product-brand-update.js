@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { useParams } from "react-router";
 import Input from "../../components/elements/input";
 import { toastSuccess } from "../../components/toast-helpers";
 import { updateSellerProduct } from "../../store/actions/seller-product.action";
@@ -10,12 +9,11 @@ function ProductBrandUpdate(props) {
   const { value, column, update, row } = props;
   const { id } = column;
   const {
-    original: { id: product_brand_unit_id }
+    original: { id: seller_product_id }
   } = row;
   const [data, updateData] = useState(value);
   const [isEdit, toggleView] = useState(false);
   const [isSaving, toggleSaving] = useState(false);
-  const { seller_product_id } = useParams();
 
   const onSuccess = () => {
     toggleSaving(false);
@@ -28,7 +26,7 @@ function ProductBrandUpdate(props) {
 
   const save = () => {
     toggleSaving(true);
-    update(seller_product_id, { [id]: data }, product_brand_unit_id, { onSuccess, onFailed });
+    update({ [id]: data }, seller_product_id, { onSuccess, onFailed });
   };
 
   const handleInputChange = (name, value) => {
@@ -90,8 +88,8 @@ function ProductBrandUpdate(props) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  update: (seller_product_id, payload, product_brand_unit_id, actions = {}) =>
-    dispatch(updateSellerProduct({ seller_product_id, product_brand_unit_id, payload, actions }))
+  update: (payload, seller_product_id, actions = {}) =>
+    dispatch(updateSellerProduct({ seller_product_id, payload, actions }))
 });
 
 export default connect(null, mapDispatchToProps)(ProductBrandUpdate);

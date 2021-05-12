@@ -28,7 +28,7 @@ function reducer(state, action) {
 }
 
 function AddNewProductBrandUnit(props) {
-  const { onSave, productBrand, sellerProduct, toggleModal } = props;
+  const { onSave, productBrand, product, toggleModal } = props;
   const [state, dispatch] = useReducer(reducer, {
     product_brand_unit: null,
     mrp_price: null,
@@ -81,7 +81,7 @@ function AddNewProductBrandUnit(props) {
   };
 
   const pbuHandleCreate = (inputValue) => {
-    units[sellerProduct.unit].push({
+    units[product.unit].push({
       label: inputValue,
       value: inputValue
     });
@@ -136,7 +136,7 @@ function AddNewProductBrandUnit(props) {
           <Dropdown
             elementKey={productBrand && productBrand.id}
             isDisabled={!(productBrand && productBrand.id) || isSubmitting}
-            listSource={sellerProduct ? units[sellerProduct.unit] : []}
+            listSource={product ? units[product.unit] : []}
             isSearchEnabled={true}
             setSelectedOption={(value) => handleDropdownChange("product_brand_unit", value)}
             selectedOption={product_brand_unit}

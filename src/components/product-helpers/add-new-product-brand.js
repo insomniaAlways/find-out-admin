@@ -37,7 +37,7 @@ function reducer(state, action) {
   }
 }
 function AddNewProductBrand(props) {
-  const { onSave, sellerProduct, toggleModal, reFetchData } = props;
+  const { onSave, product, toggleModal, reFetchData } = props;
   const [state, dispatch] = useReducer(reducer, {
     product_brand: null,
     product_brand_unit: null,
@@ -98,9 +98,11 @@ function AddNewProductBrand(props) {
   const productBrandHandleCreate = (inputValue) => {
     const payload = {
       brand_name: inputValue,
-      product_id: sellerProduct.id
+      product_id: product.id
     };
-    return createRecord("product-brand", payload).then((res) => {
+    return createRecord("product-brand", payload, {
+      baseURL: "https://findoutv1.herokuapp.com/public/v1"
+    }).then((res) => {
       reFetchData();
       dispatch({
         type: "product_brand",
@@ -110,7 +112,7 @@ function AddNewProductBrand(props) {
   };
 
   const pbuHandleCreate = (inputValue) => {
-    units[sellerProduct.unit].push({
+    units[product.unit].push({
       label: inputValue,
       value: inputValue
     });
@@ -137,7 +139,7 @@ function AddNewProductBrand(props) {
       toggleSubmit(true);
       onSave({
         payload: {
-          product_id: sellerProduct.id,
+          product_id: product.id,
           product_brand_id: state.product_brand.id,
           unit_value: state.product_brand_unit.value,
           mrp_price: parseFloat(state.mrp_price),
@@ -165,7 +167,7 @@ function AddNewProductBrand(props) {
         <Dropdown
           optionLabel={"brand_name"}
           isDisabled={isSubmitting}
-          listSource={sellerProduct ? sellerProduct.product_brands : []}
+          listSource={product ? product.product_brands : []}
           isSearchEnabled={true}
           setSelectedOption={(value) => handleDropdownChange("product_brand", value)}
           selectedOption={product_brand}
@@ -182,7 +184,7 @@ function AddNewProductBrand(props) {
           <Dropdown
             elementKey={product_brand && product_brand.id}
             isDisabled={!(product_brand && product_brand.id) || isSubmitting}
-            listSource={sellerProduct ? units[sellerProduct.unit] : []}
+            listSource={product ? units[product.unit] : []}
             isSearchEnabled={true}
             setSelectedOption={(value) => handleDropdownChange("product_brand_unit", value)}
             selectedOption={product_brand_unit}

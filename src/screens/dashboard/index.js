@@ -19,7 +19,7 @@ function DashBoard() {
         <div className="ui segment bg-transparent border-none box-shadow-none text-weight-medium">
           Recent Activities:
         </div>
-        <div className="ui horizontal segments bg-white" style={{ height: "calc(100vh - 500px);" }}>
+        <div className="ui horizontal segments bg-white recent-activity-container">
           <div className="ui segment">
             <p>Pending Orders: </p>
             <ListView />

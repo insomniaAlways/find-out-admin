@@ -4,7 +4,14 @@ import { createRecord } from "../server";
 
 function* workerAuthenticate({ email, password }) {
   try {
-    const response = yield call(createRecord, "token", { email, password });
+    const response = yield call(
+      createRecord,
+      "token",
+      { email, password },
+      {
+        baseURL: "https://findoutv1.herokuapp.com/admin/v1/"
+      }
+    );
     if (response.data.token) {
       yield put({ type: types.AUTHENTICATION_SUCCESS, payload: response.data });
       let tokenData = {

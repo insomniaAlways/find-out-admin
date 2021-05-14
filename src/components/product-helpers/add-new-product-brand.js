@@ -2,8 +2,9 @@ import clsx from "clsx";
 import React, { useReducer, useState } from "react";
 import { createRecord } from "../../store/server";
 import Dropdown from "../elements/dropdown";
-import Input from "../elements/input";
 import units from "../../utils/units";
+import SellerProductDetail from "./seller-product-detail";
+import Barcode from "./barcode";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -13,7 +14,8 @@ function reducer(state, action) {
         product_brand_unit: null,
         mrp_price: "",
         price: "",
-        quantity: ""
+        quantity: "",
+        barcode: ""
       };
     case "product_brand":
       return {
@@ -43,9 +45,12 @@ function AddNewProductBrand(props) {
     product_brand_unit: null,
     mrp_price: "",
     price: "",
-    quantity: ""
+    quantity: "",
+    barcode: ""
   });
   const [isSubmitting, toggleSubmit] = useState(false);
+  const [isSearching, toggleSearching] = useState(false);
+  const [disablePreFillSection, togglePreFillSection] = useState(false);
 
   const [errors, updateError] = useState({
     product_brand: null,
@@ -55,7 +60,7 @@ function AddNewProductBrand(props) {
     quantity: null
   });
 
-  const { product_brand, product_brand_unit, mrp_price, price, quantity } = state;
+  const { product_brand, product_brand_unit, mrp_price, price, quantity, barcode } = state;
 
   const handleInputChange = (name, value) => {
     dispatch({ type: name, value });
@@ -144,7 +149,8 @@ function AddNewProductBrand(props) {
           unit_value: state.product_brand_unit.value,
           mrp_price: parseFloat(state.mrp_price),
           price: parseFloat(state.price),
-          quantity: parseFloat(state.quantity)
+          quantity: parseFloat(state.quantity),
+          barcode: parseFloat(state.barcode)
         },
         actions: {
           onSuccess,
@@ -162,11 +168,19 @@ function AddNewProductBrand(props) {
 
   return (
     <div className="ui form">
+      <Barcode
+        isSubmitting={isSubmitting}
+        toggleSearching={toggleSearching}
+        isSearching={isSearching}
+        togglePreFillSection={togglePreFillSection}
+        dispatch={dispatch}
+      />
+      <hr />
       <div className="field">
         <label>Select Brand</label>
         <Dropdown
           optionLabel={"brand_name"}
-          isDisabled={isSubmitting}
+          isDisabled={isSubmitting || isSearching || disablePreFillSection}
           listSource={product ? product.product_brands : []}
           isSearchEnabled={true}
           setSelectedOption={(value) => handleDropdownChange("product_brand", value)}
@@ -183,7 +197,12 @@ function AddNewProductBrand(props) {
           <label>Select Packet Unit</label>
           <Dropdown
             elementKey={product_brand && product_brand.id}
-            isDisabled={!(product_brand && product_brand.id) || isSubmitting}
+            isDisabled={
+              !(product_brand && product_brand.id) ||
+              isSubmitting ||
+              isSearching ||
+              disablePreFillSection
+            }
             listSource={product ? units[product.unit] : []}
             isSearchEnabled={true}
             setSelectedOption={(value) => handleDropdownChange("product_brand_unit", value)}
@@ -195,71 +214,52 @@ function AddNewProductBrand(props) {
             <span className="text-color-negative">{errors.product_brand_unit}</span>
           )}
         </div>
-        <div className="field">
-          <label>MRP</label>
-          <Input
-            name={"mrp_price"}
-            className="text-color-black"
-            type={"number"}
-            setValue={handleInputChange}
-            min="1"
-            value={mrp_price}
-            isDisabled={
-              !(
-                product_brand &&
-                product_brand.id &&
-                product_brand_unit &&
-                product_brand_unit.value
-              ) || isSubmitting
-            }
-            placeholder={"Enter here"}
-          />
-          {errors.mrp_price && <span className="text-color-negative">{errors.mrp_price}</span>}
-        </div>
+        <SellerProductDetail
+          label={"MRP"}
+          handleInputChange={handleInputChange}
+          value={mrp_price}
+          placeholder={"Enter here"}
+          error={errors.mrp_price}
+          state={state}
+          name={"mrp_price"}
+          isSubmitting={isSubmitting}
+          isSearching={isSearching}
+        />
       </div>
-      <div className="two fields">
-        <div className="field">
-          <label>Selling Price</label>
-          <Input
-            name={"price"}
-            className="text-color-black"
-            type={"number"}
-            setValue={handleInputChange}
-            min="1"
-            value={price}
-            isDisabled={
-              !(
-                product_brand &&
-                product_brand.id &&
-                product_brand_unit &&
-                product_brand_unit.value
-              ) || isSubmitting
-            }
-            placeholder={"Enter here"}
-          />
-          {errors.price && <span className="text-color-negative">{errors.price}</span>}
-        </div>
-        <div className="field">
-          <label>Currently Available Quantity</label>
-          <Input
-            name={"quantity"}
-            className="text-color-black"
-            type={"number"}
-            setValue={handleInputChange}
-            min="1"
-            value={quantity}
-            isDisabled={
-              !(
-                product_brand &&
-                product_brand.id &&
-                product_brand_unit &&
-                product_brand_unit.value
-              ) || isSubmitting
-            }
-            placeholder={"Enter here"}
-          />
-          {errors.quantity && <span className="text-color-negative">{errors.quantity}</span>}
-        </div>
+      <div className="three fields">
+        <SellerProductDetail
+          label={"Selling Price"}
+          handleInputChange={handleInputChange}
+          value={price}
+          placeholder={"Enter here"}
+          error={errors.price}
+          state={state}
+          name={"price"}
+          isSubmitting={isSubmitting}
+          isSearching={isSearching}
+        />
+        <SellerProductDetail
+          label={"Currently Available Quantity"}
+          handleInputChange={handleInputChange}
+          value={quantity}
+          placeholder={"Enter here"}
+          error={errors.quantity}
+          state={state}
+          name={"quantity"}
+          isSubmitting={isSubmitting}
+          isSearching={isSearching}
+        />
+        <SellerProductDetail
+          label={"Enter barcode if Available"}
+          handleInputChange={handleInputChange}
+          value={barcode}
+          placeholder={"Enter barcode"}
+          error={errors.barcode}
+          state={state}
+          name={"barcode"}
+          isSubmitting={isSubmitting}
+          isSearching={isSearching}
+        />
       </div>
       <div className={clsx("field text-center", { disabled: isSubmitting })}>
         <div className="ui positive button" onClick={save}>

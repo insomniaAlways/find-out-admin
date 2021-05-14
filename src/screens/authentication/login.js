@@ -79,7 +79,7 @@ const Login = (props) => {
                   <div className="twelve wide column ">
                     <div className="ui input focus" style={{ width: "100%" }}>
                       <input
-                        type="text"
+                        type="email"
                         name="email"
                         onChange={updateState}
                         placeholder="Your email address..."
@@ -100,7 +100,7 @@ const Login = (props) => {
                   <div className="twelve wide column ">
                     <div className="ui input focus" style={{ width: "100%" }}>
                       <input
-                        type="text"
+                        type="password"
                         name="password"
                         onChange={updateState}
                         placeholder="Enter your Password"

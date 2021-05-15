@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import React, { useReducer, useState } from "react";
-import { createRecord } from "../../store/server";
 import Dropdown from "../elements/dropdown";
 import units from "../../utils/units";
 import SellerProductDetail from "./seller-product-detail";
 import Barcode from "./barcode";
+import useCreateProductBrand from "../../hooks/createProductBrandUnit";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -51,6 +51,7 @@ function AddNewProductBrand(props) {
   const [isSubmitting, toggleSubmit] = useState(false);
   const [isSearching, toggleSearching] = useState(false);
   const [disablePreFillSection, togglePreFillSection] = useState(false);
+  const [postProductBrand] = useCreateProductBrand();
 
   const [errors, updateError] = useState({
     product_brand: null,
@@ -105,15 +106,7 @@ function AddNewProductBrand(props) {
       brand_name: inputValue,
       product_id: product.id
     };
-    return createRecord("product-brand", payload, {
-      baseURL: "https://findoutv1.herokuapp.com/public/v1"
-    }).then((res) => {
-      reFetchData();
-      dispatch({
-        type: "product_brand",
-        value: res.data
-      });
-    });
+    return postProductBrand({ payload, actions: { onFailed, dispatch, reFetchData } });
   };
 
   const pbuHandleCreate = (inputValue) => {

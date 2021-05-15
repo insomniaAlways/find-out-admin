@@ -6,6 +6,7 @@ import Dropdown from "../elements/dropdown";
 import units from "../../utils/units";
 import Barcode from "./barcode";
 import SellerProductDetail from "./seller-product-detail";
+import useCreateProductBrand from "../../hooks/createProductBrandUnit";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -60,6 +61,7 @@ function ProductForm(props) {
   const [isSubmitting, toggleSubmit] = useState(false);
   const [disablePreFillSection, togglePreFillSection] = useState(false);
   const [isSearching, toggleSearching] = useState(false);
+  const [postProductBrand] = useCreateProductBrand();
 
   const [errors, updateError] = useState({
     product: null,
@@ -135,19 +137,15 @@ function ProductForm(props) {
   };
 
   const productBrandHandleCreate = (inputValue) => {
+    const onSuccess = (res) => {
+      product.product_brands.push(res);
+    };
     const payload = {
       brand_name: inputValue,
       product_id: state.product.id
     };
-    return createRecord("product-brand", payload, {
-      baseURL: "https://findoutv1.herokuapp.com/public/v1"
-    }).then((res) => {
-      product.product_brands.push(res.data);
-      dispatch({
-        type: "product_brand",
-        value: res.data
-      });
-    });
+
+    return postProductBrand({ payload, actions: { onFailed, dispatch, onSuccess } });
   };
 
   const pbuHandleCreate = (inputValue) => {

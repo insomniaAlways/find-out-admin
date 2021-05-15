@@ -63,3 +63,11 @@ export function updateSellerProduct({ seller_product_id, payload, actions = {} }
     actions
   };
 }
+
+export function findProductByBarcode({ barcode, actions = {} }) {
+  return {
+    type: types["SELLER-PRODUCT_FIND_BY_BARCODE_REQUEST"],
+    barcode,
+    actions
+  };
+}

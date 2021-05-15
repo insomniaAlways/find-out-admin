@@ -10,8 +10,9 @@ function ProductCreate(props) {
       product_brand: null,
       product_brand_unit: null,
       mrp_price: "",
-      seller_price: "",
-      quantity: ""
+      price: "",
+      quantity: "",
+      barcode: ""
     }),
     []
   );

@@ -17,7 +17,10 @@ const Input = ({ field, ...props }) => {
     setValue,
     min,
     className,
-    inputClassName
+    inputClassName,
+    hasAction,
+    onActionClick,
+    actionLabel
   } = props;
 
   const handleChange = (e) => {
@@ -29,7 +32,7 @@ const Input = ({ field, ...props }) => {
   };
 
   return (
-    <div className={clsx("ui input", { disabled: isDisabled }, className)}>
+    <div className={clsx("ui input", { disabled: isDisabled }, className, { action: hasAction })}>
       <input
         name={name}
         className={clsx("text-color-black", inputClassName)}
@@ -39,6 +42,11 @@ const Input = ({ field, ...props }) => {
         min={min}
         placeholder={placeholder}
       />
+      {hasAction && (
+        <div className="ui positive button" onClick={onActionClick}>
+          {actionLabel}
+        </div>
+      )}
     </div>
   );
 };
@@ -55,5 +63,8 @@ Input.propTypes = {
   setValue: PropTypes.func,
   min: PropTypes.string,
   className: PropTypes.string,
-  inputClassName: PropTypes.string
+  inputClassName: PropTypes.string,
+  hasAction: PropTypes.bool,
+  onActionClick: PropTypes.func,
+  actionLabel: PropTypes.string
 };

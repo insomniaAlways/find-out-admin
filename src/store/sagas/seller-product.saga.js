@@ -14,6 +14,8 @@ async function makeRequest(type, data) {
       response = await query("seller-product", data);
     } else if (type === "byId") {
       response = await findRecord("seller-product", data);
+    } else if (type === "barcode") {
+      response = await findRecord("seller-product", data);
     } else {
       response = await findAll("seller-product");
     }
@@ -167,6 +169,19 @@ function* workerDeleteRecord({ seller_product_id, actions = {} }) {
   }
 }
 
+function* workerFindByBarcode({ barcode, actions = {} }) {
+  try {
+    const response = yield call(makeRequest, "barcode", barcode);
+    if (actions.onSuccess) {
+      yield call(actions.onSuccess, response);
+    }
+  } catch (error) {
+    if (actions.onFailed) {
+      yield call(actions.onFailed, error);
+    }
+  }
+}
+
 // ---------------- watchers -----------------------
 
 function* watcherFindAll() {
@@ -179,6 +194,10 @@ function* watcherQuery() {
 
 function* watcherFindById() {
   yield takeLatest(types["SELLER-PRODUCT_FIND_BY_ID_REQUEST"], workerFindById);
+}
+
+function* watcherFindByBarcode() {
+  yield takeLatest(types["SELLER-PRODUCT_FIND_BY_BARCODE_REQUEST"], workerFindByBarcode);
 }
 
 function* watcherCreateRecord() {
@@ -198,6 +217,7 @@ export default function* rootSaga() {
     fork(watcherFindAll),
     fork(watcherQuery),
     fork(watcherFindById),
+    fork(watcherFindByBarcode),
     fork(watcherCreateRecord),
     fork(watcherDeleteRecord),
     fork(watcherUpdatedRecord)

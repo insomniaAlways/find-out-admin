@@ -41,18 +41,16 @@ const Login = (props) => {
     <>
       <div className="ui grid container" style={{ margin: "7vh" }}>
         <div
-          className="ui raised segment align-center fit-content"
-          style={{ background: "lightgray", width: "100%", padding: "4vh", height: "fit-content" }}>
-          <div
-            className="ui raised segment login-segment"
-            style={{ height: "100%", width: "100%" }}>
+          className="ui raised segment align-center fit-content login-segment"
+          style={{ background: "lightgray", width: "100%", padding: "3vh", height: "fit-content" }}>
+          <div className="ui raised segment " style={{ height: "100%", width: "100%" }}>
             <div className="ui two column  grid">
               <div className="nine wide computer only column">
-                <img src="" />
+                <img src="public/assests/images/open.jpeg" />
               </div>
-              <div className=" seven wide computer sixteen wide mobile column">
-                <div class=" ui  grid ">
-                  <div class="doubling four column row">
+              <div className=" seven wide computer sixteen wide mobile column login-form ">
+                <div class=" ui grid">
+                  <div class="doubling four column row login-form-heading">
                     <div class="left floated column">
                       <div
                         className="cursor-pointer text-color-positive"
@@ -70,15 +68,15 @@ const Login = (props) => {
                     </div>
                   </div>
                   <div className="doubling two column row" style={{ marginTop: "10vh" }}>
-                    <div className="column">
-                      <div className=" text-size-large text-color-black text-weight-medium margin-no">
-                        <h3> Welcome to Login Page </h3>
+                    <div className=" ten wide column">
+                      <div className="  text-weight-medium margin-no content-heading">
+                        <h3>Welcome to Login Page</h3>
                       </div>
                     </div>
                   </div>
                   <div className="doubling two column row" style={{ marginTop: "2vh" }}>
                     <div className="column">
-                      <div className=" text-size-medium text-color-black text-weight-medium margin-no">
+                      <div className=" text-size-medium  text-weight-medium margin-no label-heading">
                         Email address
                       </div>
                     </div>
@@ -86,8 +84,9 @@ const Login = (props) => {
 
                   <div className=" doubling two column row">
                     <div className="ten wide column">
-                      <div className="ui input focus" style={{ width: "100%" }}>
+                      <div className="ui input focus " style={{ width: "100%", marginTop: "-1vh" }}>
                         <input
+                          className="input-box"
                           type="email"
                           name="email"
                           onChange={updateState}
@@ -98,15 +97,16 @@ const Login = (props) => {
                   </div>
                   <div className="doubling two column row" style={{ marginTop: "2vh" }}>
                     <div className="column">
-                      <div className=" text-size-medium text-color-black text-weight-medium margin-no">
+                      <div className=" text-size-medium text-weight-medium margin-no label-heading">
                         Password
                       </div>
                     </div>
                   </div>
                   <div className=" doubling two column row">
                     <div className=" ten wide column">
-                      <div className="ui input focus" style={{ width: "100%" }}>
+                      <div className="ui input focus" style={{ width: "100%", marginTop: "-1vh" }}>
                         <input
+                          className="input-box"
                           type="password"
                           name="password"
                           onChange={updateState}
@@ -117,7 +117,9 @@ const Login = (props) => {
                   </div>
                   <div className="doubling two column row">
                     <div className="column">
-                      <div className=" text-size-medium text-color-secondary text-weight-medium margin-no padding-no">
+                      <div
+                        className=" text-size-medium text-weight-medium margin-no padding-no"
+                        style={{ color: "blue" }}>
                         <a href="www.wikipedia.com">Forgot Password? </a>
                       </div>
                     </div>
@@ -125,7 +127,7 @@ const Login = (props) => {
                   <div className="doubling two column row">
                     <div className="ten wide column">
                       <button
-                        className="ui button"
+                        className="ui button login-btn"
                         style={{ width: "100%", marginBottom: "5vh" }}
                         onClick={handleLogin}>
                         LOGIN

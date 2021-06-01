@@ -4,7 +4,8 @@
   max-height: 135px;
   // display: flex;
   // justify-content: center;
-  // align-items: center;
+  //align-items: center !important;
+
   border-radius: 5px;
   &.total-order {
     background-color: #85ffbd;
@@ -31,29 +32,65 @@
 }
 
 .login-segment {
-  background: linear-gradient(
-      135deg,
-      #708090 21px,
-      #d9ecff 22px,
-      #d9ecff 24px,
-      transparent 24px,
-      transparent 67px,
-      #d9ecff 67px,
-      #d9ecff 69px,
-      transparent 69px
-    ),
-    linear-gradient(
-        225deg,
-        #708090 21px,
-        #d9ecff 22px,
-        #d9ecff 24px,
-        transparent 24px,
-        transparent 67px,
-        #d9ecff 67px,
-        #d9ecff 69px,
-        transparent 69px
-      )
-      0 64px !important;
-  background-color: #708090 !important;
-  background-size: 64px 128px !important;
+  background-color: rgba(16, 81, 83, 0.89) !important;
+  background-image: radial-gradient(white, rgba(255, 255, 255, 0.2) 2px, transparent 40px),
+    radial-gradient(white, rgba(255, 255, 255, 0.15) 1px, transparent 30px),
+    radial-gradient(white, rgba(255, 255, 255, 0.1) 2px, transparent 40px),
+    radial-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1) 2px, transparent 30px) !important;
+  background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px !important;
+  background-position: 0 0, 40px 60px, 130px 270px, 70px 100px !important;
+}
+.login-form {
+  background: hsla(148, 89%, 78%, 1);
+
+  background: linear-gradient(90deg, hsla(148, 89%, 78%, 1) 0%, hsla(210, 81%, 22%, 1) 100%);
+
+  background: -moz-linear-gradient(90deg, rgb(149, 249, 211) 0%, hsla(210, 81%, 22%, 1) 100%);
+
+  background: -webkit-linear-gradient(90deg, rgb(149, 249, 199) 0%, rgb(37, 42, 47) 100%);
+
+  // filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#95F9C3", endColorstr="#0B3866", GradientType=1 );
+}
+.login-form-heading {
+  font-variant-caps: all-petite-caps !important;
+  font-size: x-large !important;
+  font-family: "Times New Roman", Times, serif;
+}
+.content-heading {
+  font-family: monospace;
+  font-size: x-large;
+  color: #e9cf7a;
+}
+.label-heading {
+  color: rgba(44, 39, 39, 0.993);
+  font-size: large;
+  font-family: "Times New Roman", Times, serif;
+}
+.input-box {
+  border-radius: 50em !important;
+  background-color: antiquewhite !important;
+}
+.login-btn {
+  border-radius: 50em !important;
+  background-color: #1ad370 !important;
+  color: black !important;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+.mobile-menu.item {
+  display: flex;
+  margin: none;
+}
+@media screen and (min-width: 768px) {
+  .mobile-menu-icon {
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .desktop-menu {
+    display: none !important;
+  }
+  .mobile-menu-icon {
+    display: block !important;
+    float: left;
+  }
 }

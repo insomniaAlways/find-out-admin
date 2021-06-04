@@ -12,6 +12,7 @@ composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 function configureStore(initialState) {
   const middlewares = [sagaMiddleware];
+  debugger;
   let sessionDetails = localStorage.getItem("find-out-session")
     ? JSON.parse(localStorage.getItem("find-out-session"))
     : null;

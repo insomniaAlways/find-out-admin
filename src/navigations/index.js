@@ -1,4 +1,4 @@
-import Dashboard from "../screens/dashboard";
+import Dashboard from "../screens/dashboard/dash-demo";
 import LoginScreen from "../screens/authentication/login";
 import { connect } from "react-redux";
 import React, { Suspense } from "react";

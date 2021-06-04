@@ -35,7 +35,6 @@ const Navbar = (props) => {
         </div>
         <div className="item mobile-menu-icon">
           <i className={isMenuOpen ? "close icon" : "bars icon"} onClick={handleMenuToggle}></i>
-          {setMenuOpen(!isMenuOpen)}
         </div>
         <div className="right menu">
           <button className="ui item border-no " onClick={handleLogout}>
